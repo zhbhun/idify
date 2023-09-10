@@ -6,6 +6,7 @@ import AvatarGroup from '@mui/material/AvatarGroup'
 import Typography from '@mui/material/Typography'
 import BlobAnimation, { BlobAnimationInstance } from './BlobAnimation'
 import ImageAdd from './ImageAdd'
+import GithubLink from './GithubLink'
 import WaveSea from './WaveSea'
 import { useBackgroundRemoval } from '@/hooks'
 
@@ -101,6 +102,7 @@ export function Welcome({ onOpen }: WelcomeProps) {
             </Box>
             <Box className="h-16 grow" />
             <WaveSea />
+            <GithubLink />
           </>
         )}
       </BlobAnimation>
