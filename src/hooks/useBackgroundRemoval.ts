@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useSnackbar } from 'notistack'
-import imglyRemoveBackground from '@imgly/background-removal'
+import imglyRemoveBackground from '@zhbhun/background-removal'
 
 let downloaded = false
 let onProgress: (key: string, current: number, total: number) => void = () => {}
@@ -67,8 +67,8 @@ export function useBackgroundRemoval() {
       onProgress = handleProgress
       imglyRemoveBackground(file, {
         publicPath: import.meta.env.DEV
-          ? '/node_modules/@imgly/background-removal/dist/'
-          : 'https://unpkg.com/@imgly/background-removal@1.0.6/dist/',
+          ? '/node_modules/@zhbhun/background-removal/dist/'
+          : 'https://unpkg.com/@zhbhun/background-removal@1.0.6/dist/',
         progress(key: string, current: number, total: number) {
           onProgress(key, current, total)
         },
