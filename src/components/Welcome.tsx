@@ -73,7 +73,7 @@ export function Welcome({ image, onAdd, onSegmented }: WelcomeProps) {
             >
               <ImageAdd
                 loading={loading}
-                progress={progress || 50}
+                progress={progress}
                 step={step}
                 onAdd={onAdd}
               />
