@@ -10,12 +10,10 @@ export function loadImage(url: string): Promise<HTMLImageElement> {
   })
 }
 
-export async function createIDPhoto({
+export async function cropIDPhoto({
   image: imageURL,
   area,
   rotation,
-  color,
-  gradient,
   resolution,
 }: {
   image: string
@@ -26,8 +24,6 @@ export async function createIDPhoto({
     height: number
   }
   rotation: number
-  color: string
-  gradient: number
   resolution: {
     width: number
     height: number
@@ -57,29 +53,17 @@ export async function createIDPhoto({
 
   const croppedCanvas = document.createElement('canvas')
   // Set the size of the cropped canvas
-  croppedCanvas.width = resolution.width
-  croppedCanvas.height = resolution.height
+  croppedCanvas.width = resolution.width * 3
+  croppedCanvas.height = resolution.height * 3
   const croppedCtx = croppedCanvas.getContext('2d')
   if (!croppedCtx) {
     return ''
   }
-  if (gradient <= 0) {
-    croppedCtx.fillStyle = color
-    croppedCtx.fillRect(0, 0, resolution.width, resolution.height)
-  } else {
-    const grd = ctx.createRadialGradient(
-      resolution.width / 2,
-      resolution.height / 2,
-      0,
-      resolution.width / 2,
-      resolution.height / 2,
-      (resolution.width + resolution.height) / 2
-    )
-    grd.addColorStop(0, color)
-    grd.addColorStop(1, chroma(color).darken(gradient).hex())
-    croppedCtx.fillStyle = grd
-    croppedCtx.fillRect(0, 0, resolution.width, resolution.height)
-  }
+
+  croppedCtx.scale(3, 3)
+  croppedCtx.fillStyle = '#fff'
+  croppedCtx.fillRect(0, 0, resolution.width, resolution.height)
+
   // Draw the cropped image onto the new canvas
   croppedCtx.drawImage(
     // croppedImage,
@@ -120,5 +104,65 @@ export async function createIDPhoto({
         Math.abs(Math.cos(rotRad) * height),
     }
   }
-  return ''
+}
+
+export async function createIDPhoto({
+  image: imageURL,
+  color,
+  gradient,
+  resolution,
+}: {
+  image: string
+  color: string
+  gradient: number
+  resolution: {
+    width: number
+    height: number
+  }
+}): Promise<string> {
+  const image = await loadImage(imageURL)
+  const canvas = document.createElement('canvas')
+  canvas.width = resolution.width
+  canvas.height = resolution.height
+  const ctx = canvas.getContext('2d')
+  if (!ctx) {
+    return ''
+  }
+  if (gradient <= 0) {
+    ctx.fillStyle = color
+    ctx.fillRect(0, 0, resolution.width, resolution.height)
+  } else {
+    const grd = ctx.createRadialGradient(
+      resolution.width / 2,
+      resolution.height / 2,
+      0,
+      resolution.width / 2,
+      resolution.height / 2,
+      (resolution.width + resolution.height) / 2
+    )
+    grd.addColorStop(0, color)
+    grd.addColorStop(1, chroma(color).darken(gradient).hex())
+    ctx.fillStyle = grd
+    ctx.fillRect(0, 0, resolution.width, resolution.height)
+  }
+  ctx.drawImage(
+    image,
+    0,
+    0,
+    image.naturalWidth,
+    image.naturalHeight,
+    0,
+    0,
+    resolution.width,
+    resolution.height
+  )
+  return new Promise((resolve, reject) => {
+    canvas.toBlob((file) => {
+      if (file) {
+        resolve(URL.createObjectURL(file))
+      } else {
+        reject(new Error('failed'))
+      }
+    }, 'image/jpeg')
+  })
 }

@@ -8,7 +8,7 @@ import BlobAnimation, { BlobAnimationInstance } from './BlobAnimation'
 import ImageAdd from './ImageAdd'
 import GithubLink from './GithubLink'
 import WaveSea from './WaveSea'
-import { useBackgroundRemoval } from '@/hooks'
+import { useSegement } from '@/hooks'
 
 const DEMOS = [
   'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=2940&q=80',
@@ -17,30 +17,37 @@ const DEMOS = [
 ]
 
 export interface WelcomeProps {
-  onOpen?(image: string): void
+  image?: string
+  onAdd?(image: string): void
+  onSegmented?(image: string): void
 }
 
-export function Welcome({ onOpen }: WelcomeProps) {
+export function Welcome({ image, onAdd, onSegmented }: WelcomeProps) {
   const blobAnimationRef = useRef<BlobAnimationInstance>(null)
-  const bgRemoval = useBackgroundRemoval()
+  const { loading, process, progress, result } = useSegement()
   useEffect(() => {
     window.gtag?.('event', 'expose', {
-      object: 'welcome',
+      object: image ? 'segment' : 'welcome',
     })
-  }, [])
+  }, [image])
   useEffect(() => {
-    if (bgRemoval.loading) {
+    if (image) {
+      process(image)
+    }
+  }, [process, image])
+  useEffect(() => {
+    if (loading) {
       blobAnimationRef.current?.startAnimation({
-        minMultiplier: 100,
-        deltaMultiplierStep: 0.05,
+        minMultiplier: 30,
+        deltaMultiplierStep: 0.01,
       })
     }
-  }, [bgRemoval.loading])
+  }, [loading])
   useEffect(() => {
-    if (bgRemoval.result) {
-      onOpen?.(bgRemoval.result)
+    if (result) {
+      onSegmented?.(result)
     }
-  }, [bgRemoval.result, onOpen])
+  }, [result, onSegmented])
   return (
     <Box
       className="absolute inset-0 flex flex-col overflow-hidden"
@@ -52,7 +59,8 @@ export function Welcome({ onOpen }: WelcomeProps) {
       <BlobAnimation ref={blobAnimationRef}>
         {(props) => (
           <>
-            <Box className="h-16 grow" />
+            <GithubLink />
+            <Box className="h-16 min-h-[50px] grow" />
             <Typography
               className="relative z-0 text-4xl font-bold text-sky-900"
               sx={{
@@ -72,17 +80,11 @@ export function Welcome({ onOpen }: WelcomeProps) {
               {...props}
               className="relative flex self-center flex-col items-center justify-center shrink-0 w-[400px] h-[400px] max-w-[100vw] max-h-[100vw]"
             >
-              <ImageAdd
-                loading={bgRemoval.loading}
-                progress={bgRemoval.progress}
-                onAdd={(file) => {
-                  bgRemoval.process(file)
-                }}
-              />
+              <ImageAdd loading={loading} progress={progress} onAdd={onAdd} />
               <AvatarGroup
                 className={classNames(
-                  'absolute bottom-[90px] left-1/2 -translate-x-1/2',
-                  bgRemoval.loading ? 'invisible' : ''
+                  'absolute bottom-[20%] left-1/2 -translate-x-1/2',
+                  loading ? 'invisible' : ''
                 )}
               >
                 {DEMOS.map((item, index) => {
@@ -93,7 +95,7 @@ export function Welcome({ onOpen }: WelcomeProps) {
                       sx={{ width: 28, height: 28 }}
                       src={item}
                       onClick={() => {
-                        bgRemoval.process(item)
+                        onAdd?.(item)
                       }}
                     />
                   )
@@ -102,7 +104,6 @@ export function Welcome({ onOpen }: WelcomeProps) {
             </Box>
             <Box className="h-16 grow" />
             <WaveSea />
-            <GithubLink />
           </>
         )}
       </BlobAnimation>

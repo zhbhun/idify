@@ -1,13 +1,18 @@
 import { ChromePicker } from 'react-color'
+import chroma from 'chroma-js'
 import CloseIcon from '@mui/icons-material/Close'
 import GradientIcon from '@mui/icons-material/Gradient'
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
+import CardHeader from '@mui/material/CardHeader'
+import CardContent from '@mui/material/CardContent'
 import ClickAwayListener from '@mui/material/ClickAwayListener'
 import Fade from '@mui/material/Fade'
 import IconButton from '@mui/material/IconButton'
+import OutlinedInput from '@mui/material/OutlinedInput'
 import Slider from '@mui/material/Slider'
 import Tooltip from '@mui/material/Tooltip'
+import { useEffect, useState } from 'react'
 
 const COLORS = [
   // white
@@ -140,6 +145,10 @@ export function ColorPicker({
   onChange,
   onGradientChange,
 }: ColorPickerProps) {
+  const [colorInput, setColorInput] = useState(value)
+  useEffect(() => {
+    setColorInput(value)
+  }, [value])
   return (
     <ClickAwayListener
       onClickAway={() => {
@@ -174,75 +183,108 @@ export function ColorPicker({
           }}
           elevation={6}
         >
-          <ChromePicker
-            className="!w-full !bg-transparent !shadow-none"
-            color={value}
-            onChange={(color) => {
-              onChange?.(color.hex)
-            }}
-          />
-          <Box className="grid grid-cols-9 grid-rows-3 gap-[10px] py-[12px] px-[16px]">
-            {COLORS.map((color, index) => {
-              return (
-                <Tooltip key={index} title={color.name} enterDelay={300}>
-                  <Box
-                    sx={{
-                      position: 'relative',
-                      width: '20px',
-                      height: '20px',
-                      borderRadius: '50%',
-                      cursor: 'pointer',
-                      backgroundImage: `url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2 2"><path d="M1 2V0h1v1H0v1z" fill-opacity="0.75"/></svg>')`,
-                      backgroundSize: '8px 8px',
-                      boxShadow:
-                        color.value === value
-                          ? `${color.value} 0px 0px 0px 20px inset, ${color.value} 0px 0px 5px`
-                          : `${color.value} 0px 0px 0px 20px inset`,
-                    }}
-                    onClick={() => {
-                      onChange?.(color.value)
-                    }}
-                  >
-                    {color.value === value ? (
-                      <Box
-                        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[16px] h-[16px] rounded-[8px]"
-                        sx={{
-                          backgroundColor: '#121212',
-                          backgroundImage:
-                            'linear-gradient(rgba(255, 255, 255, 0.11), rgba(255, 255, 255, 0.11))',
-                        }}
-                      />
-                    ) : null}
-                  </Box>
-                </Tooltip>
-              )
-            })}
-          </Box>
-          <Box className="flex flex-row items-center py-[12px] px-[16px]">
-            <GradientIcon fontSize="small" />
-            <Box className="grow ml-[20px]">
-              <Slider
-                className="block w-full"
-                min={0}
-                max={10}
-                step={0.1}
+          <CardHeader
+            title="Color Picker"
+            action={
+              <IconButton
+                className="!outline-0"
                 size="small"
-                value={gradient}
-                onChange={(_, value) => {
-                  if (typeof value === 'number') {
-                    onGradientChange?.(value as number)
+                type="button"
+                onClick={onClose}
+              >
+                <CloseIcon />
+              </IconButton>
+            }
+          />
+          <CardContent>
+            <Box className="px-4">
+              <Box className="grid grid-cols-9 grid-rows-3 gap-[10px] mb-4">
+                {COLORS.map((color, index) => {
+                  return (
+                    <Tooltip key={index} title={color.name} enterDelay={300}>
+                      <Box
+                        sx={{
+                          position: 'relative',
+                          width: '20px',
+                          height: '20px',
+                          borderRadius: '50%',
+                          cursor: 'pointer',
+                          backgroundImage: `url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2 2"><path d="M1 2V0h1v1H0v1z" fill-opacity="0.75"/></svg>')`,
+                          backgroundSize: '8px 8px',
+                          boxShadow:
+                            color.value === value
+                              ? `${color.value} 0px 0px 0px 20px inset, ${color.value} 0px 0px 5px`
+                              : `${color.value} 0px 0px 0px 20px inset`,
+                        }}
+                        onClick={() => {
+                          onChange?.(color.value)
+                        }}
+                      >
+                        {color.value === value ? (
+                          <Box
+                            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[16px] h-[16px] rounded-[8px]"
+                            sx={{
+                              backgroundColor: '#121212',
+                              backgroundImage:
+                                'linear-gradient(rgba(255, 255, 255, 0.11), rgba(255, 255, 255, 0.11))',
+                            }}
+                          />
+                        ) : null}
+                      </Box>
+                    </Tooltip>
+                  )
+                })}
+              </Box>
+              <OutlinedInput
+                className="mb-4"
+                required
+                fullWidth
+                inputProps={{
+                  inputMode: 'numeric',
+                  pattern: '[0-9]*',
+                }}
+                size="small"
+                type="text"
+                value={colorInput}
+                onChange={(e) => {
+                  setColorInput(e.target.value)
+                }}
+                onBlur={(e) => {
+                  const newColor = e.target.value
+                  if (chroma.valid(newColor)) {
+                    onChange?.(chroma(newColor).hex())
+                  } else {
+                    setColorInput(value)
                   }
                 }}
               />
+              <Box className="flex flex-row items-center">
+                <GradientIcon fontSize="small" />
+                <Box className="grow ml-[20px]">
+                  <Slider
+                    className="block w-full"
+                    min={0}
+                    max={10}
+                    step={0.1}
+                    size="small"
+                    value={gradient}
+                    onChange={(_, value) => {
+                      if (typeof value === 'number') {
+                        onGradientChange?.(value as number)
+                      }
+                    }}
+                  />
+                </Box>
+              </Box>
             </Box>
-          </Box>
-          <IconButton
+          </CardContent>
+          {/* <IconButton
             className="absolute top-0 right-0 !outline-0"
             size="small"
             onClick={onClose}
           >
             <CloseIcon fontSize="small" />
-          </IconButton>
+          </IconButton> */}
         </Card>
       </Fade>
     </ClickAwayListener>

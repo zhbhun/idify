@@ -6,7 +6,7 @@ import CircularProgress from '@mui/material/CircularProgress'
 export interface ImageAddProps {
   loading?: boolean
   progress?: number
-  onAdd?(file: File): void
+  onAdd?(file: string): void
 }
 
 export function ImageAdd({
@@ -30,7 +30,7 @@ export function ImageAdd({
         onChange={(event) => {
           const file = event.target?.files?.[0]
           if (file) {
-            onAdd?.(file)
+            onAdd?.(URL.createObjectURL(file))
           }
         }}
       />

@@ -5,7 +5,7 @@ import imglyRemoveBackground from '@zhbhun/background-removal'
 let downloaded = false
 let onProgress: (key: string, current: number, total: number) => void = () => {}
 
-export function useBackgroundRemoval() {
+export function useSegement() {
   const { enqueueSnackbar } = useSnackbar()
   const [error, setError] = useState<Error | null>(null)
   const [loading, setLoading] = useState(false)
@@ -36,7 +36,6 @@ export function useBackgroundRemoval() {
             clearInterval(intervalRef.current)
             intervalRef.current = 0
           }
-          setProgress(100)
         } else if (!intervalRef.current) {
           intervalRef.current = setInterval(() => {
             setProgress(

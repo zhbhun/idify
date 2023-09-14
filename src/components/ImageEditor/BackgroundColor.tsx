@@ -44,16 +44,7 @@ export function BackgroundColor({
     }
   }, [color, gradient, width, height])
   return (
-    <Box
-      sx={{
-        content: '" "',
-        position: 'absolute',
-        top: 'var(--crop-area-top, 0)',
-        left: 'var(--crop-area-left, 0)',
-        width: 'var(--crop-area-width, 0)',
-        height: 'var(--crop-area-height, 0)',
-      }}
-    >
+    <Box className="absolute inset-0">
       <canvas
         ref={canvasRef}
         className="block w-full h-full"

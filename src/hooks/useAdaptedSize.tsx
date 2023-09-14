@@ -22,7 +22,7 @@ function getCropSize(spec: IDPhotoSpec) {
   }
 }
 
-export function useCropSize(spec: IDPhotoSpec): {
+export function useAdaptedSize(spec: IDPhotoSpec): {
   width: number
   height: number
 } {
