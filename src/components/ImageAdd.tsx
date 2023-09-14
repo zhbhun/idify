@@ -7,9 +7,9 @@ import CircularProgress from '@mui/material/CircularProgress'
 import Typography from '@mui/material/Typography'
 
 const DEMOS = [
-  'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=2940&q=80',
   'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=2864&q=80',
   'https://images.unsplash.com/photo-1522556189639-b150ed9c4330?auto=format&fit=crop&w=2787&q=80',
+  'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=2940&q=80',
 ]
 
 export interface ImageAddProps {
@@ -65,9 +65,7 @@ export function ImageAdd({
           variant="caption"
           display="block"
         >
-          {step === 1
-            ? 'AI model downloading ...'
-            : 'Image processing...'}
+          {step === 1 ? 'AI model downloading ...' : 'Image processing...'}
         </Typography>
       ) : (
         <AvatarGroup
