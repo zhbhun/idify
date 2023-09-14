@@ -116,6 +116,7 @@ export function useSegement() {
     error,
     loading,
     progress,
+    step,
     result,
     process,
   }

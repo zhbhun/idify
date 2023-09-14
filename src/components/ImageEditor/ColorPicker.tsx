@@ -1,4 +1,3 @@
-import { ChromePicker } from 'react-color'
 import chroma from 'chroma-js'
 import CloseIcon from '@mui/icons-material/Close'
 import GradientIcon from '@mui/icons-material/Gradient'
