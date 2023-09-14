@@ -1,20 +1,11 @@
-import classNames from 'classnames'
 import { useEffect, useRef } from 'react'
 import Box from '@mui/material/Box'
-import Avatar from '@mui/material/Avatar'
-import AvatarGroup from '@mui/material/AvatarGroup'
 import Typography from '@mui/material/Typography'
 import BlobAnimation, { BlobAnimationInstance } from './BlobAnimation'
 import ImageAdd from './ImageAdd'
 import GithubLink from './GithubLink'
 import WaveSea from './WaveSea'
 import { useSegement } from '@/hooks'
-
-const DEMOS = [
-  'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=2940&q=80',
-  'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=2864&q=80',
-  'https://images.unsplash.com/photo-1522556189639-b150ed9c4330?auto=format&fit=crop&w=2787&q=80',
-]
 
 export interface WelcomeProps {
   image?: string
@@ -24,7 +15,7 @@ export interface WelcomeProps {
 
 export function Welcome({ image, onAdd, onSegmented }: WelcomeProps) {
   const blobAnimationRef = useRef<BlobAnimationInstance>(null)
-  const { loading, process, progress, result } = useSegement()
+  const { loading, process, progress, result, step } = useSegement()
   useEffect(() => {
     window.gtag?.('event', 'expose', {
       object: image ? 'segment' : 'welcome',
@@ -80,27 +71,12 @@ export function Welcome({ image, onAdd, onSegmented }: WelcomeProps) {
               {...props}
               className="relative flex self-center flex-col items-center justify-center shrink-0 w-[400px] h-[400px] max-w-[100vw] max-h-[100vw]"
             >
-              <ImageAdd loading={loading} progress={progress} onAdd={onAdd} />
-              <AvatarGroup
-                className={classNames(
-                  'absolute bottom-[20%] left-1/2 -translate-x-1/2',
-                  loading ? 'invisible' : ''
-                )}
-              >
-                {DEMOS.map((item, index) => {
-                  return (
-                    <Avatar
-                      key={index}
-                      className="cursor-pointer"
-                      sx={{ width: 28, height: 28 }}
-                      src={item}
-                      onClick={() => {
-                        onAdd?.(item)
-                      }}
-                    />
-                  )
-                })}
-              </AvatarGroup>
+              <ImageAdd
+                loading={loading}
+                progress={progress || 50}
+                step={step}
+                onAdd={onAdd}
+              />
             </Box>
             <Box className="h-16 grow" />
             <WaveSea />

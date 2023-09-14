@@ -10,6 +10,12 @@ export function useSegement() {
   const [error, setError] = useState<Error | null>(null)
   const [loading, setLoading] = useState(false)
   const [progress, setProgress] = useState(0)
+  /**
+   * - 0: idle
+   * - 1: downloading
+   * - 2: processing
+   */
+  const [step, setStep] = useState<0 | 1 | 2>(0)
   const [result, setResult] = useState('')
 
   const lastProgressRef = useRef(0)
@@ -31,6 +37,7 @@ export function useSegement() {
       }
       if (key === 'compute:inference') {
         downloaded = true
+        setStep(2)
         if (current === 1) {
           if (intervalRef.current) {
             clearInterval(intervalRef.current)
@@ -60,6 +67,7 @@ export function useSegement() {
       })
       setLoading(true)
       setProgress(0)
+      setStep(downloaded ? 2 : 1)
       lastProgressRef.current = 0
       lastDownloadKeyRef.current = ''
       startTimeRef.current = Date.now()
