@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import Cropper, { Area } from 'react-easy-crop'
-import smartcrop from 'smartcrop'
+// import smartcrop from 'smartcrop'
 import { useSnackbar } from 'notistack'
 import AddIcon from '@mui/icons-material/Add'
 import AspectRatioIcon from '@mui/icons-material/AspectRatio'
+import DoneAllOutlinedIcon from '@mui/icons-material/DoneAllOutlined';
 import RemoveIcon from '@mui/icons-material/Remove'
 import RotateRightIcon from '@mui/icons-material/RotateRight'
 import Box from '@mui/material/Box'
@@ -14,7 +15,7 @@ import Stack from '@mui/material/Stack'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 import { EDITOR_ZOOM_MAX, EDITOR_ZOOM_MIN, ID_PHOTO_SPECS } from '@/config'
 import { useAdaptedSize } from '@/hooks'
-import { cropIDPhoto, loadImage } from '@/uitls'
+import { cropIDPhoto } from '@/uitls'
 import DarkButton from '../DarkButton'
 import CloseButton from '../CloseButton'
 import SaveButton from '../SaveButton'
@@ -37,11 +38,17 @@ const CROP_AREA_CLASSNAME = 'editor-crop-area'
 
 export interface ImageCropperProps {
   image: string
+  segmentedImage?: string
   onClose?(): void
   onSave?(spec: IDPhotoSpec, file: string): void
 }
 
-export function ImageCropper({ image, onClose, onSave }: ImageCropperProps) {
+export function ImageCropper({
+  image,
+  segmentedImage,
+  onClose,
+  onSave,
+}: ImageCropperProps) {
   const containerRef = useRef<HTMLElement>(null)
   const { enqueueSnackbar } = useSnackbar()
   const [spec, setSpec] = useState(ID_PHOTO_SPECS[0])
@@ -61,42 +68,43 @@ export function ImageCropper({ image, onClose, onSave }: ImageCropperProps) {
       object: 'crop',
     })
   }, [])
-  useEffect(() => {
-    // 根据图片和规格智能计算缩放和裁减区域
-    let mounted = true
-    loadImage(image).then((image) => {
-      if (!mounted) {
-        return
-      }
-      smartcrop
-        .crop(image, {
-          width: cropSize.width,
-          height: cropSize.height,
-        })
-        .then(({ topCrop }) => {
-          if (!mounted) {
-            return
-          }
-          const smartZoom = cropSize.width / topCrop.width
-          const smartX =
-            (image.naturalWidth / 2) * smartZoom -
-            cropSize.width / 2 -
-            topCrop.x * smartZoom
-          const smartY =
-            (image.naturalHeight / 2) * smartZoom -
-            cropSize.height / 2 -
-            topCrop.y * smartZoom
-          setZoom(smartZoom)
-          setCrop({ x: smartX, y: smartY })
-        })
-        .catch(() => {
-          // TODO: ...
-        })
-    })
-    return () => {
-      mounted = false
-    }
-  }, [image, cropSize])
+  // 自动计算裁剪区域存在问题有待优化，所以暂时停用
+  // useEffect(() => {
+  //   // 根据图片和规格智能计算缩放和裁减区域
+  //   let mounted = true
+  //   loadImage(image).then((image) => {
+  //     if (!mounted) {
+  //       return
+  //     }
+  //     smartcrop
+  //       .crop(image, {
+  //         width: cropSize.width,
+  //         height: cropSize.height,
+  //       })
+  //       .then(({ topCrop }) => {
+  //         if (!mounted) {
+  //           return
+  //         }
+  //         const smartZoom = cropSize.width / topCrop.width
+  //         const smartX =
+  //           (image.naturalWidth / 2) * smartZoom -
+  //           cropSize.width / 2 -
+  //           topCrop.x * smartZoom
+  //         const smartY =
+  //           (image.naturalHeight / 2) * smartZoom -
+  //           cropSize.height / 2 -
+  //           topCrop.y * smartZoom
+  //         setZoom(smartZoom)
+  //         setCrop({ x: smartX, y: smartY })
+  //       })
+  //       .catch(() => {
+  //         // TODO: ...
+  //       })
+  //   })
+  //   return () => {
+  //     mounted = false
+  //   }
+  // }, [image, cropSize])
   const onCropComplete = useCallback((_: Area, croppedAreaPixels: Area) => {
     setCroppedArea(croppedAreaPixels)
   }, [])
@@ -106,7 +114,7 @@ export function ImageCropper({ image, onClose, onSave }: ImageCropperProps) {
         object: 'crop',
       })
       const idPhoto = await cropIDPhoto({
-        image,
+        image: segmentedImage || image,
         area: croppedArea,
         rotation,
         resolution: spec.resolution,
@@ -123,7 +131,15 @@ export function ImageCropper({ image, onClose, onSave }: ImageCropperProps) {
         variant: 'error',
       })
     }
-  }, [image, croppedArea, rotation, spec, enqueueSnackbar, onSave])
+  }, [
+    image,
+    segmentedImage,
+    croppedArea,
+    rotation,
+    spec,
+    enqueueSnackbar,
+    onSave,
+  ])
   return (
     <ThemeProvider theme={theme}>
       <Fade in>
@@ -132,7 +148,9 @@ export function ImageCropper({ image, onClose, onSave }: ImageCropperProps) {
             className="absolute inset-0"
             sx={{
               '& .reactEasyCrop_CropArea': {
-                color: 'rgba(0, 0, 0, 0.8)',
+                color: segmentedImage
+                  ? 'rgba(0, 0, 0, 0.8)'
+                  : 'rgba(0, 0, 0, 0.6)',
               },
             }}
           >
@@ -141,7 +159,7 @@ export function ImageCropper({ image, onClose, onSave }: ImageCropperProps) {
                 containerClassName: CROP_CONTAINER_CLASSNAME,
                 cropAreaClassName: CROP_AREA_CLASSNAME,
               }}
-              image={image}
+              image={segmentedImage || image}
               aspect={spec.resolution.width / spec.resolution.height}
               crop={crop}
               cropSize={cropSize}
@@ -227,7 +245,9 @@ export function ImageCropper({ image, onClose, onSave }: ImageCropperProps) {
             </ButtonGroup>
           </Stack>
           <CloseButton onClick={onClose} />
-          <SaveButton onClick={handleSave} />
+          {segmentedImage ? (
+            <SaveButton icon={<DoneAllOutlinedIcon />} onClick={handleSave} />
+          ) : null}
           {specPickerOpen ? (
             <SpecPicker
               open={specPickerOpen}

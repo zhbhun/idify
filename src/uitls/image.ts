@@ -44,12 +44,18 @@ export async function cropIDPhoto({
   )
   canvas.width = bBoxWidth
   canvas.height = bBoxHeight
+  ctx.clearRect(0, 0, bBoxWidth, bBoxHeight)
   ctx.translate(bBoxWidth / 2, bBoxHeight / 2)
   ctx.rotate(rotRad)
   // ctx.scale(flip.horizontal ? -1 : 1, flip.vertical ? -1 : 1)
   ctx.translate(-image.width / 2, -image.height / 2)
   // draw rotated image
   ctx.drawImage(image, 0, 0)
+  // canvas.toBlob((file) => {
+  //   if (file) {
+  //     console.log(URL.createObjectURL(file), resolution)
+  //   }
+  // }, 'image/png')
 
   const croppedCanvas = document.createElement('canvas')
   // Set the size of the cropped canvas
@@ -61,8 +67,7 @@ export async function cropIDPhoto({
   }
 
   croppedCtx.scale(3, 3)
-  croppedCtx.fillStyle = '#fff'
-  croppedCtx.fillRect(0, 0, resolution.width, resolution.height)
+  croppedCtx.clearRect(0, 0, resolution.width, resolution.height)
 
   // Draw the cropped image onto the new canvas
   croppedCtx.drawImage(
@@ -86,7 +91,7 @@ export async function cropIDPhoto({
       } else {
         reject(new Error('failed'))
       }
-    }, 'image/jpeg')
+    }, 'image/png')
   })
 
   function getRadianAngle(degreeValue: number) {
@@ -163,6 +168,6 @@ export async function createIDPhoto({
       } else {
         reject(new Error('failed'))
       }
-    }, 'image/jpeg')
+    }, 'image/png')
   })
 }

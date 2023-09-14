@@ -1,11 +1,13 @@
 import classNames from 'classnames'
-import { HTMLAttributes } from 'react'
+import { HTMLAttributes, ReactElement, cloneElement } from 'react'
 import { Box } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
 
-export interface CloseButtonProps extends HTMLAttributes<HTMLElement> {}
+export interface CloseButtonProps extends HTMLAttributes<HTMLElement> {
+  icon?: ReactElement
+}
 
-export function CloseButton({ className, ...props }: CloseButtonProps) {
+export function CloseButton({ className, icon, ...props }: CloseButtonProps) {
   return (
     <Box
       {...props}
@@ -28,7 +30,13 @@ export function CloseButton({ className, ...props }: CloseButtonProps) {
           fill="rgba(0, 0, 0, 0.2)"
         />
       </svg>
-      <CloseIcon className="relative text-3xl text-white" />
+      {icon ? (
+        cloneElement(icon, {
+          className: 'relative text-3xl text-white',
+        })
+      ) : (
+        <CloseIcon className="relative text-3xl text-white" />
+      )}
     </Box>
   )
 }

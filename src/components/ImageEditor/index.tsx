@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useSnackbar } from 'notistack'
+import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined'
 import Box from '@mui/material/Box'
 import ButtonGroup from '@mui/material/ButtonGroup'
 import Fade from '@mui/material/Fade'
@@ -122,7 +123,7 @@ export function ImageEditor({ spec, image, onClose }: ImageEditorProps) {
               </DarkButton>
             </ButtonGroup>
           </Stack>
-          <CloseButton onClick={onClose} />
+          <CloseButton icon={<ArrowBackOutlinedIcon />} onClick={onClose} />
           <SaveButton onClick={onSave} />
           {colorPickerOpen ? (
             <ColorPicker

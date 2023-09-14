@@ -65,7 +65,7 @@ export function ImageAdd({
           variant="caption"
           display="block"
         >
-          {step === 1 ? 'AI model downloading ...' : 'Image processing...'}
+          {step === 1 ? 'AI model downloading ...' : 'Image segmenting...'}
         </Typography>
       ) : (
         <AvatarGroup

@@ -5,8 +5,8 @@ import { ID_PHOTO_SPECS } from './config'
 
 function App() {
   const [spec, setSpec] = useState(ID_PHOTO_SPECS[0])
-  const [cropping, setCropping] = useState('')
-  const [segmenting, setSegmenting] = useState('')
+  const [source, setSource] = useState('')
+  const [segmented, setSegmented] = useState('')
   const [editing, setEditing] = useState('')
   return (
     <Box
@@ -16,29 +16,33 @@ function App() {
         backgroundSize: '20px 20px',
       }}
     >
-      {!cropping && !editing ? (
+      {!segmented && !editing ? (
         <Welcome
-          image={segmenting}
-          onAdd={setCropping}
-          onSegmented={(image) => {
-            setSegmenting('')
+          daemon={!!source}
+          onAdd={setSource}
+          onSegmented={setSegmented}
+        />
+      ) : null}
+      {source && !editing ? (
+        <ImageCropper
+          image={source}
+          segmentedImage={segmented}
+          onClose={() => {
+            if (!segmented) {
+              // force reset segment
+              location.reload()
+            } else {
+              // TODO: 增加切换动画
+              // setSource('')
+              // setSegmented('')
+            }
+          }}
+          onSave={(spec, image) => {
             setEditing(image)
+            setSpec(spec)
           }}
         />
       ) : null}
-      {cropping && (
-        <ImageCropper
-          image={cropping}
-          onClose={() => {
-            setCropping('')
-          }}
-          onSave={(spec, image) => {
-            setSpec(spec)
-            setCropping('')
-            setSegmenting(image)
-          }}
-        />
-      )}
       {editing && (
         <ImageEditor
           spec={spec}

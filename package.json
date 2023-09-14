@@ -15,6 +15,7 @@
     "@fontsource/roboto": "^5.0.8",
     "@mui/icons-material": "^5.14.7",
     "@mui/material": "^5.14.7",
+    "@react-spring/web": "^9.7.3",
     "@types/chroma-js": "^2.4.1",
     "@types/react-color": "^3.0.6",
     "@zhbhun/background-removal": "^1.0.6",
@@ -28,7 +29,8 @@
     "react-easy-crop": "^5.0.0",
     "react-router-dom": "^6.15.0",
     "smartcrop": "^2.0.5",
-    "tailwindcss": "^3.3.3"
+    "tailwindcss": "^3.3.3",
+    "zustand": "^4.4.1"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",
