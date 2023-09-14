@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import FaceIcon from '@mui/icons-material/Face'
 import Face2Icon from '@mui/icons-material/Face2'
 import Face3Icon from '@mui/icons-material/Face3'
@@ -17,7 +18,6 @@ import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import { IDPhotoSpec } from '@/types'
 import { ID_PHOTO_SPECS } from '@/config'
-import { useEffect, useState } from 'react'
 
 const SPEC_ICONS = [
   <FaceIcon />,

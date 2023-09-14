@@ -4,7 +4,7 @@ import Cropper, { Area } from 'react-easy-crop'
 import { useSnackbar } from 'notistack'
 import AddIcon from '@mui/icons-material/Add'
 import AspectRatioIcon from '@mui/icons-material/AspectRatio'
-import DoneAllOutlinedIcon from '@mui/icons-material/DoneAllOutlined';
+import DoneAllOutlinedIcon from '@mui/icons-material/DoneAllOutlined'
 import RemoveIcon from '@mui/icons-material/Remove'
 import RotateRightIcon from '@mui/icons-material/RotateRight'
 import Box from '@mui/material/Box'
@@ -15,12 +15,13 @@ import Stack from '@mui/material/Stack'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 import { EDITOR_ZOOM_MAX, EDITOR_ZOOM_MIN, ID_PHOTO_SPECS } from '@/config'
 import { useAdaptedSize } from '@/hooks'
+import { IDPhotoSpec } from '@/types'
 import { cropIDPhoto } from '@/uitls'
 import DarkButton from '../DarkButton'
 import CloseButton from '../CloseButton'
 import SaveButton from '../SaveButton'
+import SegementAlert from '../SegementAlert'
 import SpecPicker from './SpecPicker'
-import { IDPhotoSpec } from '@/types'
 
 const theme = createTheme({
   palette: {
@@ -261,6 +262,7 @@ export function ImageCropper({
               }}
             />
           ) : null}
+          <SegementAlert />
         </Box>
       </Fade>
     </ThemeProvider>
