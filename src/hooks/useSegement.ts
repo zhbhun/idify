@@ -97,7 +97,7 @@ export function useSegement() {
           })
           setError(error)
           setLoading(false)
-          enqueueSnackbar('Failed', {
+          enqueueSnackbar('Oops, remove image background failed', {
             variant: 'error',
           })
         })

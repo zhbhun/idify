@@ -2,6 +2,7 @@ import classNames from 'classnames'
 import { useCallback, useEffect, useRef } from 'react'
 import Box from '@mui/material/Box'
 import CircularProgress from '@mui/material/CircularProgress'
+import ReplayOutlinedIcon from '@mui/icons-material/ReplayOutlined'
 import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 import BlobAnimation, { BlobAnimationInstance } from './BlobAnimation'
@@ -9,16 +10,23 @@ import ImageAdd from './ImageAdd'
 import GithubLink from './GithubLink'
 import WaveSea from './WaveSea'
 import { useSegement } from '@/hooks'
+import { IconButton } from '@mui/material'
 
 export interface WelcomeProps {
   daemon?: boolean
+  source?: string
   onAdd?(image: string): void
   onSegmented?(image: string): void
 }
 
-export function Welcome({ daemon = false, onAdd, onSegmented }: WelcomeProps) {
+export function Welcome({
+  daemon = false,
+  source,
+  onAdd,
+  onSegmented,
+}: WelcomeProps) {
   const blobAnimationRef = useRef<BlobAnimationInstance>(null)
-  const { loading, process, progress, result, step } = useSegement()
+  const { error, loading, process, progress, result, step } = useSegement()
   useEffect(() => {
     window.gtag?.('event', 'expose', {
       object: 'welcome',
@@ -57,27 +65,41 @@ export function Welcome({ daemon = false, onAdd, onSegmented }: WelcomeProps) {
       )}
     >
       {daemon ? (
-        <Tooltip
-          arrow
-          open={loading}
-          placement="left"
-          title={
-            step === 1 ? 'AI model downloading ...' : 'Image segmenting...'
-          }
-        >
-          <Box className="relative z-10">
-            <CircularProgress
-              className="block text-white"
-              variant="determinate"
-              color="info"
-              size={30}
-              value={progress}
-            />
-            <Box className="absolute top-1/2 left-1/2 text-white text-xs font-bold scale-75 -translate-x-1/2 -translate-y-1/2">
-              {`${Math.floor(progress)}%`}
+        !loading && error ? (
+          <IconButton
+            className="relative z-10 text-white"
+            size="small"
+            onClick={() => {
+              if (source) {
+                process(source)
+              }
+            }}
+          >
+            <ReplayOutlinedIcon />
+          </IconButton>
+        ) : (
+          <Tooltip
+            arrow
+            open={loading}
+            placement="left"
+            title={
+              step === 1 ? 'AI model downloading ...' : 'Image segmenting...'
+            }
+          >
+            <Box className="relative z-10">
+              <CircularProgress
+                className="block text-white"
+                variant="determinate"
+                color="info"
+                size={30}
+                value={progress}
+              />
+              <Box className="absolute top-1/2 left-1/2 text-white text-xs font-bold scale-75 -translate-x-1/2 -translate-y-1/2">
+                {`${Math.floor(progress)}%`}
+              </Box>
             </Box>
-          </Box>
-        </Tooltip>
+          </Tooltip>
+        )
       ) : (
         <ImageAdd
           loading={loading}

@@ -19,6 +19,7 @@ function App() {
       {!segmented && !editing ? (
         <Welcome
           daemon={!!source}
+          source={source}
           onAdd={setSource}
           onSegmented={setSegmented}
         />
