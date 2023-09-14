@@ -33,8 +33,8 @@ function App() {
               location.reload()
             } else {
               // TODO: 增加切换动画
-              // setSource('')
-              // setSegmented('')
+              setSource('')
+              setSegmented('')
             }
           }}
           onSave={(spec, image) => {
