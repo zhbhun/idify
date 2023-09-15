@@ -44,7 +44,7 @@ export function useSegement() {
             intervalRef.current = 0
           }
         } else if (!intervalRef.current) {
-          intervalRef.current = setInterval(() => {
+          intervalRef.current = window.setInterval(() => {
             setProgress(
               Math.min(
                 lastProgressRef.current +
