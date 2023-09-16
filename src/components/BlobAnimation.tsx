@@ -8,6 +8,7 @@ import {
   useState,
 } from 'react'
 import classes from './index.module.scss'
+import { useSegementStore } from '@/stores'
 
 type BlobPoint = [number, number, number, number, number, number]
 
@@ -451,7 +452,6 @@ function startBlobAnim(canvas: HTMLCanvasElement, child: HTMLElement) {
       multiplier = Math.min(minMultiplier, multiplier + deltaMultiplierStep)
     }
 
-    
     const delta = (time - lastTime) * multiplier
     lastTime = time
 
@@ -500,7 +500,7 @@ function startBlobAnim(canvas: HTMLCanvasElement, child: HTMLElement) {
 }
 
 export interface BlobAnimationProps {
-  children: (props: { ref: RefObject<HTMLElement> }) => ReactNode
+  target: RefObject<HTMLElement | null>
 }
 
 export interface BlobAnimationInstance {
@@ -515,22 +515,23 @@ export interface BlobAnimationInstance {
 export const BlobAnimation = forwardRef<
   BlobAnimationInstance,
   BlobAnimationProps
->(({ children }: BlobAnimationProps, ref) => {
+>(({ target }: BlobAnimationProps, ref) => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const childRef = useRef<HTMLElement>(null)
   const [instance, setInstance] = useState<BlobAnimationInstance | null>(null)
+
   useEffect(() => {
     const { current: canvasEle } = canvasRef
-    const { current: childEle } = childRef
-    if (canvasEle && childEle) {
-      const manager = startBlobAnim(canvasEle, childEle)
+    const { current: targetEle } = target
+    if (canvasEle && targetEle) {
+      const manager = startBlobAnim(canvasEle, targetEle)
       setInstance(manager)
       return () => {
         manager.dispose()
       }
     }
     return () => {}
-  }, [])
+  }, [target])
+
   useImperativeHandle(
     ref,
     () =>
@@ -541,11 +542,22 @@ export const BlobAnimation = forwardRef<
       },
     [instance]
   )
+
+  const loading = useSegementStore((state) => state.loading)
+  useEffect(() => {
+    if (loading && instance) {
+      instance.startAnimation({
+        minMultiplier: 6,
+        deltaMultiplierStep: 0.01,
+      })
+    }
+  }, [loading, instance])
+
   return (
-    <>
-      <canvas ref={canvasRef} className={classes.canvas} />
-      {children({ ref: childRef })}
-    </>
+    <canvas
+      ref={canvasRef}
+      className="box-border absolute inset-0 w-full h-full"
+    />
   )
 })
 

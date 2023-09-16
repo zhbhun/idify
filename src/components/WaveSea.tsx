@@ -1,6 +1,20 @@
 import Box from '@mui/material/Box'
+import { animated, useSpring } from '@react-spring/web'
 
-export function WaveSea() {
+export interface WaveSeaProps {
+  visible?: boolean
+}
+
+export function WaveSea({ visible }: WaveSeaProps) {
+  const [springs] = useSpring(
+    {
+      config: { duration: 300 },
+      from: { y: '100%' },
+      to: { y: visible ? '0%' : '100%' },
+    },
+    [visible]
+  )
+
   const wave = (
     <Box
       className=""
@@ -41,7 +55,10 @@ export function WaveSea() {
     />
   )
   return (
-    <Box className="relative grow-[4] shrink-0 h-[220px]">
+    <animated.div
+      className="relative grow-[4] shrink-0 h-[220px]"
+      style={springs}
+    >
       <Box
         className="absolute inset-x-0 bottom-0 bg-blue-400"
         sx={{
@@ -51,7 +68,7 @@ export function WaveSea() {
         {wave}
         {wave}
       </Box>
-    </Box>
+    </animated.div>
   )
 }
 

@@ -1,2 +1,2 @@
 export * from './useAdaptedSize'
-export * from './useSegement'
+// export * from './useSegement'

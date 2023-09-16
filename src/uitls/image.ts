@@ -51,11 +51,6 @@ export async function cropIDPhoto({
   ctx.translate(-image.width / 2, -image.height / 2)
   // draw rotated image
   ctx.drawImage(image, 0, 0)
-  // canvas.toBlob((file) => {
-  //   if (file) {
-  //     console.log(URL.createObjectURL(file), resolution)
-  //   }
-  // }, 'image/png')
 
   const croppedCanvas = document.createElement('canvas')
   // Set the size of the cropped canvas
