@@ -22,6 +22,7 @@
     "@zhbhun/background-removal": "^1.0.6",
     "chroma-js": "^2.4.2",
     "classnames": "^2.3.2",
+    "eruda": "^3.0.1",
     "github-fork-ribbon-css": "^0.2.3",
     "lodash-es": "^4.17.21",
     "notistack": "^3.0.1",

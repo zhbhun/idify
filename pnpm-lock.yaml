@@ -41,6 +41,9 @@ dependencies:
   classnames:
     specifier: ^2.3.2
     version: 2.3.2
+  eruda:
+    specifier: ^3.0.1
+    version: 3.0.1
   github-fork-ribbon-css:
     specifier: ^0.2.3
     version: 0.2.3
@@ -2839,6 +2842,10 @@ packages:
     resolution: {integrity: sha512-Sk5V6wVazPhq5MhpO+AUxJn5x7XSXGl1R93Vn7i+zS15KDVxQijejNCrz8340/2bgLBjR9GtEG8ZVKONDjcqGQ==}
     dependencies:
       stackframe: 1.3.4
+    dev: false
+
+  /eruda@3.0.1:
+    resolution: {integrity: sha512-6q1Xdwga4JTr1mKSW4mzuWSSbmXgqpm/8Wa1QGFGfCWRjC0bCQjbS4u06M1te1moucIS3hBLlbSTPWYH2W0qbQ==}
     dev: false
 
   /es-abstract@1.22.1:
