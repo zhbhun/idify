@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import Box from '@mui/material/Box'
 import CircularProgress from '@mui/material/CircularProgress'
 import IconButton from '@mui/material/IconButton'
@@ -7,11 +8,29 @@ import { useAppStore, useSegementStore } from '@/stores'
 
 export function ImageSegment() {
   const { error, loading, progress, step, process } = useSegementStore()
+  const [tooltipOpen, setTooltipOpen] = useState(false)
+  useEffect(() => {
+    let timer = 0
+    if (loading) {
+      // wait animation finish
+      timer = setTimeout(() => {
+        timer = 0
+        setTooltipOpen(true)
+      }, 400)
+    } else {
+      setTooltipOpen(false)
+    }
+    return () => {
+      if (timer) {
+        clearTimeout(timer)
+      }
+    }
+  }, [loading])
   if (loading) {
     return (
       <Tooltip
         arrow
-        open={loading}
+        open={tooltipOpen}
         placement="left"
         title={step === 1 ? 'AI model downloading ...' : 'Image segmenting...'}
       >

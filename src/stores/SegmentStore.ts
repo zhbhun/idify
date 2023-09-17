@@ -100,7 +100,9 @@ export const useSegementStore = create<SegmentStore>((set, get) => ({
       publicPath: import.meta.env.DEV
         ? '/node_modules/@zhbhun/background-removal/dist/'
         : 'https://unpkg.com/@zhbhun/background-removal@1.0.6/dist/',
-      progress: onProgress,
+      progress: (key: string, current: number, total: number) => {
+        onProgress(key, current, total)
+      },
     })
       .then((blob) => {
         window.gtag('event', 'click', {
