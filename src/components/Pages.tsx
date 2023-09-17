@@ -53,27 +53,18 @@ export function Pages() {
         ? {
             from:
               index > indexRef.current
-                ? { opacity: 0, transform: 'translate3d(0, 20%, 0)' }
+                ? { opacity: 0, y: '20%' }
                 : {
                     opacity: 1,
-                    transform: 'translate3d(0, 0, 0)',
+                    y: '0%',
                   },
-            enter: { opacity: 1, transform: 'translate3d(0, 0, 0)' },
-            leave:
-              index > indexRef.current
-                ? { opacity: 1, transform: 'translate3d(0, 0, 0)' }
-                : { opacity: 0, transform: 'translate3d(0, 20%, 0)' },
+            enter: { opacity: 1, y: '0%' },
+            leave: { opacity: 0, y: '0%' },
           }
         : {
-            from:
-              index > indexRef.current
-                ? { transform: 'translate3d(100%, 0, 0)' }
-                : { transform: 'translate3d(-100%, 0, 0)' },
-            enter: { transform: 'translate3d(0%, 0 ,0)' },
-            leave:
-              index > indexRef.current
-                ? { transform: 'translate3d(-50%, 0, 0)' }
-                : { transform: 'translate3d(100%, 0, 0)' },
+            from: index > indexRef.current ? { x: '100%' } : { x: '-50%' },
+            enter: { x: '0%' },
+            leave: index > indexRef.current ? { x: '-50%' } : { x: '100%' },
           },
     [pc, index]
   )

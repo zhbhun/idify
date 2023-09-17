@@ -41,6 +41,15 @@ export function ImageEditor(props: ImageEditorProps) {
   const [gradient, setGradient] = useState(0)
   const [color, setColor] = useState(spec.color)
   const [colorPickerOpen, setColorPickerOpen] = useState(false)
+
+  // image cache to replace empty image while page desotry
+  const imageRef = useRef(image)
+  useEffect(() => {
+    if (image) {
+      imageRef.current
+    }
+  }, [image])
+
   useEffect(() => {
     window.gtag?.('event', 'expose', {
       object: 'editor',
@@ -94,7 +103,10 @@ export function ImageEditor(props: ImageEditorProps) {
             width={size.width}
             height={size.height}
           />
-          <img className="block absolute inset-0 w-full h-full" src={image} />
+          <img
+            className="block absolute inset-0 w-full h-full"
+            src={image || imageRef.current}
+          />
         </Box>
         <Stack
           className="absolute bottom-0 left-1/2 w-auto px-[12px] pb-[10px] -translate-x-1/2"
