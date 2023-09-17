@@ -43,7 +43,7 @@ export const useSegementStore = create<SegmentStore>((set, get) => ({
   ...defaultSegementState,
   process(file: File | string) {
     get().clear()
-    window.gtag('event', 'click', {
+    window.gtag?.('event', 'click', {
       object: 'background_remove',
     })
     set({
@@ -105,7 +105,7 @@ export const useSegementStore = create<SegmentStore>((set, get) => ({
       },
     })
       .then((blob) => {
-        window.gtag('event', 'click', {
+        window.gtag?.('event', 'click', {
           object: 'background_remove_success',
           duration: Date.now() - startTime,
         })
@@ -118,7 +118,7 @@ export const useSegementStore = create<SegmentStore>((set, get) => ({
         return url
       })
       .catch((error) => {
-        window.gtag('event', 'click', {
+        window.gtag?.('event', 'click', {
           object: 'background_remove_fail',
           duration: Date.now() - startTime,
         })
