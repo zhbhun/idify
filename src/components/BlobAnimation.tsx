@@ -1,5 +1,4 @@
 import {
-  ReactNode,
   RefObject,
   forwardRef,
   useEffect,
@@ -7,7 +6,6 @@ import {
   useRef,
   useState,
 } from 'react'
-import classes from './index.module.scss'
 import { useSegementStore } from '@/stores'
 
 type BlobPoint = [number, number, number, number, number, number]
