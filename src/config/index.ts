@@ -7,7 +7,7 @@ export const EDITOR_ZOOM_MAX = 10
 export const ID_PHOTO_SPECS: IDPhotoSpec[] = [
   {
     name: 'one-inch', 
-    title: 'One inch',
+    title: '一寸',
     aspectRatio: 295 / 413,
     resolution: {
       width: 295,
@@ -21,7 +21,7 @@ export const ID_PHOTO_SPECS: IDPhotoSpec[] = [
   },
   {
     name: 'two-inch',
-    title: 'Two inch',
+    title: '两寸',
     aspectRatio: 413 / 579,
     resolution: {
       width: 413,
@@ -35,7 +35,7 @@ export const ID_PHOTO_SPECS: IDPhotoSpec[] = [
   },
   {
     name: 'large-one-inch',
-    title: 'Large one inch',
+    title: '大一寸',
     aspectRatio: 390 / 567,
     resolution: {
       width: 390,
@@ -49,7 +49,7 @@ export const ID_PHOTO_SPECS: IDPhotoSpec[] = [
   },
   {
     name: 'Small-one-inch',
-    title: 'Small one inch',
+    title: '小一寸',
     aspectRatio: 260 / 378,
     resolution: {
       width: 260,
@@ -63,7 +63,7 @@ export const ID_PHOTO_SPECS: IDPhotoSpec[] = [
   },
   {
     name: 'large-two-inch',
-    title: 'Large two inch',
+    title: '大两寸',
     aspectRatio: 413 / 626,
     resolution: {
       width: 413,
@@ -77,7 +77,7 @@ export const ID_PHOTO_SPECS: IDPhotoSpec[] = [
   },
   {
     name: 'Small-two-inch',
-    title: 'Small two inch',
+    title: '小两寸',
     aspectRatio: 413 / 531,
     resolution: {
       width: 413,

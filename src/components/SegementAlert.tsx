@@ -44,14 +44,13 @@ export function SegementAlert() {
   }, [])
   return (
     <Dialog open={open} TransitionComponent={Transition} onClose={handleClose}>
-      <DialogTitle>Removing photo backgound</DialogTitle>
+      <DialogTitle>清除照片背景</DialogTitle>
       <DialogContent>
         <DialogContentText>
-          Idify will remove the image background in the background, and the
-          progress will be displayed in the upper right corner. This process may
-          take a little time, so please be patient. Before proceeding, you can
-          select the photo size and crop it. We can move on to the next step
-          once the process is complete.
+        Idify会在后台移除图像背景，右上角显示进度。
+        这个过程可能需要一点时间，所以请耐心等待。
+        在继续之前，您可以选择照片大小并裁剪它。
+        一旦流程完成，我们就可以进行下一步。
         </DialogContentText>
       </DialogContent>
       <DialogActions>
@@ -61,10 +60,10 @@ export function SegementAlert() {
             localStorage.setItem(ALERTED_CACHE, '1')
           }}
         >
-          Don't show agin
+          不再提示
         </Button>
         <Button onClick={handleClose} autoFocus>
-          Ok
+          确定
         </Button>
       </DialogActions>
     </Dialog>

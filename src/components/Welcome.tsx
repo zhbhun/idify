@@ -7,7 +7,6 @@ import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 import BlobAnimation, { BlobAnimationInstance } from './BlobAnimation'
 import ImageAdd from './ImageAdd'
-import GithubLink from './GithubLink'
 import WaveSea from './WaveSea'
 import { useSegement } from '@/hooks'
 import { IconButton } from '@mui/material'
@@ -83,7 +82,7 @@ export function Welcome({
             open={loading}
             placement="left"
             title={
-              step === 1 ? 'AI model downloading ...' : 'Image segmenting...'
+              step === 1 ? 'AI模型下载中 ...' : '照片处理中...'
             }
           >
             <Box className="relative z-10">
@@ -124,7 +123,6 @@ export function Welcome({
             <>{renderAdd(props)}</>
           ) : (
             <>
-              <GithubLink />
               <Box className="h-16 min-h-[50px] grow" />
               <Typography
                 className="relative z-0 text-4xl font-bold text-sky-900"
@@ -138,7 +136,7 @@ export function Welcome({
                   className="relative top-[-4px] mr-1 w-12 h-12 align-middle"
                   src="/logo.svg"
                 />{' '}
-                IDIFY
+                证件照制作
               </Typography>
               <Box className="h-8 grow" />
               {renderAdd(props)}

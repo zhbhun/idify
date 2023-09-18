@@ -183,7 +183,7 @@ export function ColorPicker({
           elevation={6}
         >
           <CardHeader
-            title="Color Picker"
+            title="选择背景颜色"
             action={
               <IconButton
                 className="!outline-0"
