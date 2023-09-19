@@ -3,18 +3,18 @@ import { useSnackbar } from 'notistack'
 import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined'
 import Box from '@mui/material/Box'
 import ButtonGroup from '@mui/material/ButtonGroup'
-import Fade from '@mui/material/Fade'
 import Stack from '@mui/material/Stack'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 import { useAdaptedSize } from '@/hooks'
+import { useAppStore, useCropStore, useRetouchStore } from '@/stores'
 import { createIDPhoto } from '@/uitls'
 import CloseButton from '../CloseButton'
 import DarkButton from '../DarkButton'
 import SaveButton from '../SaveButton'
 import TextureBackground from '../TextureBackground'
 import BackgroundColor from './BackgroundColor'
+import CanvasImage from './CanvasImage'
 import ColorPicker from './ColorPicker'
-import { useAppStore } from '@/stores'
 
 const theme = createTheme({
   palette: {
@@ -27,14 +27,12 @@ const theme = createTheme({
   },
 })
 
-export interface ImageEditorProps {}
+export interface ImageRetouchProps {}
 
-export function ImageEditor(props: ImageEditorProps) {
-  const [spec, image, onClose] = useAppStore((state) => [
-    state.spec,
-    state.editing,
-    state.cancelEdit,
-  ])
+export function ImageRetouch(props: ImageRetouchProps) {
+  const spec = useCropStore((state) => state.spec)
+  const image = useRetouchStore((state) => state.image)
+  const onClose = useAppStore((state) => state.cancel)
   const containerRef = useRef<HTMLElement>(null)
   const { enqueueSnackbar } = useSnackbar()
   const size = useAdaptedSize(spec)
@@ -103,10 +101,7 @@ export function ImageEditor(props: ImageEditorProps) {
             width={size.width}
             height={size.height}
           />
-          <img
-            className="block absolute inset-0 w-full h-full"
-            src={image || imageRef.current}
-          />
+          <CanvasImage image={image || imageRef.current} />
         </Box>
         <Stack
           className="absolute bottom-0 left-1/2 w-auto px-[12px] pb-[10px] -translate-x-1/2"

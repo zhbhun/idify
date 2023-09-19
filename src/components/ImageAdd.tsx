@@ -15,26 +15,22 @@ const DEMOS = [
 
 export function ImageAdd() {
   const { enqueueSnackbar } = useSnackbar()
-  const [addSource, addSegmented] = useAppStore((state) => [
-    state.addSource,
-    state.addSegmented,
-  ])
-  const { process, reset } = useSegementStore()
+  const crop = useAppStore((state) => state.crop)
+  const { process: segment } = useSegementStore()
   const handleAdd = useCallback(
     (file: string) => {
-      reset()
-      process(file)
+      segment(file)
         .then((result) => {
-          addSegmented(result)
+          // ignore
         })
         .catch(() => {
           enqueueSnackbar('Oops, remove image background failed', {
             variant: 'error',
           })
         })
-      addSource(file)
+      crop(file)
     },
-    [addSource, addSegmented, process, reset, enqueueSnackbar]
+    [crop, segment, enqueueSnackbar]
   )
 
   return (

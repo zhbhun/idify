@@ -1,6 +1,10 @@
 import { create } from 'zustand'
+import { ID_PHOTO_SPECS } from '@/config'
+import { IDPhotoSpec } from '@/types'
 
 export interface CropState {
+  image: string
+  spec: IDPhotoSpec
   position: { x: number; y: number }
   rotation: number
   zoom: number
@@ -13,6 +17,8 @@ export interface CropState {
 }
 
 export interface CropActions {
+  setSpec(spec: IDPhotoSpec): void
+  setImage(image: string): void
   setPosition(position: CropState['position']): void
   setRotation(
     rotation:
@@ -29,6 +35,8 @@ export interface CropActions {
 export interface CropStore extends CropState, CropActions {}
 
 export const defaultCropState: CropState = {
+  spec: ID_PHOTO_SPECS[0],
+  image: '',
   position: {
     x: 0,
     y: 0,
@@ -45,6 +53,12 @@ export const defaultCropState: CropState = {
 
 export const useCropStore = create<CropStore>((set, get) => ({
   ...defaultCropState,
+  setSpec(spec: IDPhotoSpec) {
+    set({ spec })
+  },
+  setImage(image: string) {
+    set({ ...defaultCropState, image, spec: get().spec })
+  },
   setPosition(position) {
     set({ position })
   },

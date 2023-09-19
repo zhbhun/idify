@@ -3,7 +3,7 @@ import { CSSProperties, forwardRef, useEffect, useMemo, useState } from 'react'
 import Box from '@mui/material/Box'
 import ImageAdd from './ImageAdd'
 import ImageSegment from './ImageSegment'
-import { useAppStore, useSegementStore } from '@/stores'
+import { useAppStore, useCropStore, useSegementStore } from '@/stores'
 
 const DAEMON_WIDTH = 68
 const DAEMON_HEIGHT = 68
@@ -16,7 +16,7 @@ export interface ImageCloudProps {
 
 export const ImageCloud = forwardRef<HTMLDivElement, ImageCloudProps>(
   ({ rect }: ImageCloudProps, ref) => {
-    const source = useAppStore((state) => state.source)
+    const source = useCropStore((state) => state.image)
     const segmenting = useSegementStore((state) => state.loading)
     const daemon = useMemo(() => !!source || segmenting, [source, segmenting])
     const [daemoned, setDaemoned] = useState(false)

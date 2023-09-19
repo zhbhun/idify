@@ -4,7 +4,7 @@ import CircularProgress from '@mui/material/CircularProgress'
 import IconButton from '@mui/material/IconButton'
 import ReplayOutlinedIcon from '@mui/icons-material/ReplayOutlined'
 import Tooltip from '@mui/material/Tooltip'
-import { useAppStore, useSegementStore } from '@/stores'
+import { useAppStore, useCropStore, useSegementStore } from '@/stores'
 
 export function ImageSegment() {
   const { error, loading, progress, step, process } = useSegementStore()
@@ -55,9 +55,9 @@ export function ImageSegment() {
         className="relative z-10 text-white"
         size="small"
         onClick={() => {
-          const { source } = useAppStore.getState()
-          if (source) {
-            process(source)
+          const { image } = useCropStore.getState()
+          if (image) {
+            process(image)
           }
         }}
       >

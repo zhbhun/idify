@@ -13,7 +13,7 @@ import Stack from '@mui/material/Stack'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 import { EDITOR_ZOOM_MAX, EDITOR_ZOOM_MIN } from '@/config'
 import { useAdaptedSize } from '@/hooks'
-import { useAppStore, useCropStore } from '@/stores'
+import { useAppStore, useCropStore, useSegementStore } from '@/stores'
 import { cropIDPhoto } from '@/uitls'
 import DarkButton from './DarkButton'
 import CloseButton from './CloseButton'
@@ -21,6 +21,7 @@ import SaveButton from './SaveButton'
 import SegementAlert from './SegementAlert'
 import SpecPicker from './SpecPicker'
 import TextureBackground from './TextureBackground'
+import { useRetouchStore } from '@/stores/RetouchStore'
 
 const theme = createTheme({
   palette: {
@@ -39,12 +40,12 @@ const CROP_AREA_CLASSNAME = 'editor-crop-area'
 export interface ImageCropperProps {}
 
 export function ImageCropper(props: ImageCropperProps) {
-  const [image, segmentedImage, spec, setSpec] = useAppStore((state) => [
-    state.source,
-    state.segmented,
+  const [image, spec, setSpec] = useCropStore((state) => [
+    state.image,
     state.spec,
     state.setSpec,
   ])
+  const segmentedImage = useSegementStore((state) => state.result)
   const containerRef = useRef<HTMLElement>(null)
   const { enqueueSnackbar } = useSnackbar()
   const cropSize = useAdaptedSize(spec)
@@ -64,9 +65,12 @@ export function ImageCropper(props: ImageCropperProps) {
       object: 'crop',
     })
   }, [])
-  const onCropComplete = useCallback((_: Area, croppedAreaPixels: Area) => {
-    setCroppedArea(croppedAreaPixels)
-  }, [])
+  const onCropComplete = useCallback(
+    (_: Area, croppedAreaPixels: Area) => {
+      setCroppedArea(croppedAreaPixels)
+    },
+    [setCroppedArea]
+  )
   const handleSave = useCallback(async () => {
     try {
       window.gtag?.('event', 'click', {
@@ -81,7 +85,7 @@ export function ImageCropper(props: ImageCropperProps) {
       window.gtag?.('event', 'click', {
         object: 'crop_success',
       })
-      useAppStore.getState().addEditing(idPhoto)
+      useAppStore.getState().retouch(idPhoto)
     } catch (error) {
       window.gtag?.('event', 'click', {
         object: 'crop_fail',
@@ -92,8 +96,9 @@ export function ImageCropper(props: ImageCropperProps) {
     }
   }, [image, segmentedImage, croppedArea, rotation, spec, enqueueSnackbar])
   const handleClose = useCallback(() => {
-    const { segmented, cancel } = useAppStore.getState()
-    if (segmented) {
+    const { cancel } = useAppStore.getState()
+    const { result } = useSegementStore.getState()
+    if (result) {
       cancel()
     } else {
       // force reset segment

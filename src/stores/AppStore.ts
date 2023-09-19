@@ -1,64 +1,46 @@
 import { create } from 'zustand'
-import { ID_PHOTO_SPECS } from '@/config'
-import { IDPhotoSpec } from '@/types'
-import { useCropStore } from '.'
+import { useCropStore, useSegementStore } from '.'
+import { useRetouchStore } from './RetouchStore'
 
 export interface AppState {
-  spec: IDPhotoSpec
-  source: string
-  segmented: string
-  editing: string
+  /**
+   * - 0: select photo
+   * - 1: crop photo
+   * - 2：edit photo
+   */
+  step: 0 | 1 | 2
 }
 
 export interface AppActions {
-  addSource(image: string): void
-  addSegmented(image: string): void
-  setSpec(spec: IDPhotoSpec): void
-  addEditing(image: string): void
-  cancelEdit(): void
+  crop(image: string): void
+  retouch(image: string): void
   cancel(): void
+  reset(): void
 }
 
 export const defaultAppState: AppState = {
-  spec: ID_PHOTO_SPECS[0],
-  source: '',
-  segmented: '',
-  editing: '',
+  step: 0,
 }
 
 export interface AppStore extends AppState, AppActions {}
 
 export const useAppStore = create<AppStore>((set, get) => ({
   ...defaultAppState,
-  addSource(image: string) {
-    useCropStore.getState().reset()
-    set({
-      source: image,
-    })
+  crop(image: string) {
+    useCropStore.getState().setImage(image)
+    set({ step: 1 })
   },
-  addSegmented(image: string) {
-    set({
-      segmented: image,
-    })
-  },
-  addEditing(image: string) {
-    set({
-      editing: image,
-    })
-  },
-  setSpec(spec: IDPhotoSpec) {
-    set({ spec })
-  },
-  cancelEdit() {
-    set({
-      editing: '',
-    })
+  retouch(image: string) {
+    useRetouchStore.getState().setImage(image)
+    set({ step: 2 })
   },
   cancel() {
-    set({
-      source: '',
-      segmented: '',
-      editing: '',
-    })
+    set({ step: Math.max(0, get().step - 1) as AppState['step'] })
+  },
+  reset() {
+    useCropStore.getState().reset()
+    useSegementStore.getState().reset()
+    useRetouchStore.getState().reset()
+    set({ step: 0 })
   },
 }))

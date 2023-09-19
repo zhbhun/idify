@@ -3,11 +3,11 @@ import { HTMLAttributes, ReactElement, cloneElement } from 'react'
 import { Box } from '@mui/material'
 import SaveIcon from '@mui/icons-material/Save'
 
-export interface CloseButtonProps extends HTMLAttributes<HTMLElement> {
+export interface SaveButtonProps extends HTMLAttributes<HTMLElement> {
   icon?: ReactElement
 }
 
-export function CloseButton({ className, icon, ...props }: CloseButtonProps) {
+export function SaveButton({ className, icon, ...props }: SaveButtonProps) {
   return (
     <Box
       {...props}
@@ -41,4 +41,4 @@ export function CloseButton({ className, icon, ...props }: CloseButtonProps) {
   )
 }
 
-export default CloseButton
+export default SaveButton

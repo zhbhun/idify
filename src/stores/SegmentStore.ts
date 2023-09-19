@@ -3,6 +3,7 @@ import { throttle } from 'lodash-es'
 import imglyRemoveBackground from '@zhbhun/background-removal'
 
 export interface SegmentState {
+  image: string;
   /** Fail */
   error: Error | null
   /** Segmenting */
@@ -19,7 +20,7 @@ export interface SegmentState {
 }
 
 export interface SegmentActions {
-  process(file: File | string): Promise<string>
+  process(image: string): Promise<string>
   clear(): void
   reset(): void
 }
@@ -27,6 +28,7 @@ export interface SegmentActions {
 export interface SegmentStore extends SegmentState, SegmentActions {}
 
 export const defaultSegementState: SegmentState = {
+  image: '',
   error: null,
   loading: false,
   progress: 0,
@@ -41,14 +43,15 @@ let onProgress: (key: string, current: number, total: number) => void = () => {}
 
 export const useSegementStore = create<SegmentStore>((set, get) => ({
   ...defaultSegementState,
-  process(file: File | string) {
+  process(image: string) {
     get().clear()
     window.gtag?.('event', 'click', {
       object: 'background_remove',
     })
     set({
+      ...defaultSegementState,
+      image,
       loading: true,
-      progress: 0,
       step: downloaded ? 2 : 1,
     })
     let lastProgress = 0
@@ -96,7 +99,7 @@ export const useSegementStore = create<SegmentStore>((set, get) => ({
         }
       }
     }, 1000)
-    return imglyRemoveBackground(file, {
+    return imglyRemoveBackground(image, {
       publicPath: import.meta.env.DEV
         ? '/node_modules/@zhbhun/background-removal/dist/'
         : 'https://unpkg.com/@zhbhun/background-removal@1.0.6/dist/',

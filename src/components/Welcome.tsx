@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
-import { useAppStore } from '@/stores'
+import { useAppStore, useSegementStore } from '@/stores'
 import BlobAnimation from './BlobAnimation'
 import GithubLink from './GithubLink'
 import ImageCloud from './ImageCloud'
@@ -11,10 +11,9 @@ import WaveSea from './WaveSea'
 
 export function Welcome() {
   const cloudRef = useRef<HTMLDivElement>(null)
-  const [daemon, hidden] = useAppStore((state) => [
-    !!state.source,
-    state.segmented,
-  ])
+  const step = useAppStore((state) => state.step)
+  const daemon = step === 1
+  const hidden = useSegementStore((state) => !!state.result)
   const visible = !hidden
   useEffect(() => {
     if (visible) {
