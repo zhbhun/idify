@@ -3,7 +3,7 @@ import { throttle } from 'lodash-es'
 import imglyRemoveBackground from '@zhbhun/background-removal'
 
 export interface SegmentState {
-  image: string;
+  image: string
   /** Fail */
   error: Error | null
   /** Segmenting */
@@ -39,6 +39,7 @@ export const defaultSegementState: SegmentState = {
 /** AI Model already downloaded */
 let downloaded = false
 let interval = 0
+let ts = 0
 let onProgress: (key: string, current: number, total: number) => void = () => {}
 
 export const useSegementStore = create<SegmentStore>((set, get) => ({
@@ -100,6 +101,7 @@ export const useSegementStore = create<SegmentStore>((set, get) => ({
       }
     }, 1000)
     return imglyRemoveBackground(image, {
+      ts: downloaded ? ts : ++ts,
       publicPath: import.meta.env.DEV
         ? '/node_modules/@zhbhun/background-removal/dist/'
         : 'https://unpkg.com/@zhbhun/background-removal@1.0.6/dist/',
