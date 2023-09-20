@@ -33,7 +33,8 @@ export function CanvasImage({ image }: CanvasImageProps) {
   }, [render])
   useEffect(() => {
     return () => {
-      canvasRef.current?.destroy()
+      textureRef.current?.destroy();
+      canvasRef.current?.remove();
     }
   }, [])
   const container = useMemo(() => {

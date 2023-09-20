@@ -1,4 +1,6 @@
-export interface FxTexture {}
+export interface FxTexture {
+  destroy(): void;
+}
 
 export interface FxCanvasElement extends HTMLCanvasElement {
   texture(image: HTMLElement): FxTexture
