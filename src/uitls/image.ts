@@ -1,11 +1,13 @@
-import chroma from 'chroma-js'
+import { RetouchAdjustment, RetouchBackground } from '@/stores'
+import { createGLFXCanvas, drawCanvasBackground, renderGLFXAdjustment } from '.'
 
 export function loadImage(url: string): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {
     const image = new Image()
     image.addEventListener('load', () => resolve(image))
     image.addEventListener('error', (error) => reject(error))
-    image.setAttribute('crossOrigin', 'anonymous') // needed to avoid cross-origin issues on CodeSandbox
+    // needed to avoid cross-origin issues on CodeSandbox
+    image.setAttribute('crossOrigin', 'anonymous')
     image.src = url
   })
 }
@@ -108,13 +110,13 @@ export async function cropIDPhoto({
 
 export async function createIDPhoto({
   image: imageURL,
-  color,
-  gradient,
+  background,
+  adjustment,
   resolution,
 }: {
   image: string
-  color: string
-  gradient: number
+  background: RetouchBackground
+  adjustment: RetouchAdjustment
   resolution: {
     width: number
     height: number
@@ -128,25 +130,13 @@ export async function createIDPhoto({
   if (!ctx) {
     return ''
   }
-  if (gradient <= 0) {
-    ctx.fillStyle = color
-    ctx.fillRect(0, 0, resolution.width, resolution.height)
-  } else {
-    const grd = ctx.createRadialGradient(
-      resolution.width / 2,
-      resolution.height / 2,
-      0,
-      resolution.width / 2,
-      resolution.height / 2,
-      (resolution.width + resolution.height) / 2
-    )
-    grd.addColorStop(0, color)
-    grd.addColorStop(1, chroma(color).darken(gradient).hex())
-    ctx.fillStyle = grd
-    ctx.fillRect(0, 0, resolution.width, resolution.height)
-  }
+  drawCanvasBackground(canvas, background)
+  const fxs = createGLFXCanvas(image)
+  fxs.canvas.width = image.naturalWidth
+  fxs.canvas.height = image.naturalHeight
+  renderGLFXAdjustment(fxs.canvas, fxs.texture, adjustment)
   ctx.drawImage(
-    image,
+    fxs.canvas,
     0,
     0,
     image.naturalWidth,

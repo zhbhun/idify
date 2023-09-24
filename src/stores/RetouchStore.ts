@@ -1,6 +1,27 @@
 import { create } from 'zustand'
 
-export interface RetouchEffect {
+export type RetouchBackgroundGradientAngle =
+  | 'l'
+  | 'r'
+  | 't'
+  | 'b'
+  | 'c'
+  | 'tl'
+  | 'tr'
+  | 'bl'
+  | 'br'
+
+export interface RetouchBackgroundGradient {
+  angle: RetouchBackgroundGradientAngle
+  brightness: number
+}
+
+export interface RetouchBackground {
+  color: string
+  gradient: RetouchBackgroundGradient
+}
+
+export interface RetouchAdjustment {
   /**
    * Provides additive brightness control.
    *
@@ -34,7 +55,7 @@ export interface RetouchEffect {
   /**
    * Modifies the saturation of desaturated colors, leaving saturated colors unmodified.
    *
-   * 1 to 1 (-1 is minimum vibrance, 0 is no change, and 1 is maximum vibrance)
+   * -1 to 1 (-1 is minimum vibrance, 0 is no change, and 1 is maximum vibrance)
    */
   vibrance?: number
   /** Adds a simulated lens edge darkening effect. */
@@ -48,17 +69,14 @@ export interface RetouchEffect {
 
 export interface RetouchState {
   image: string
-  color: string
-  gradient: number
-  effect: RetouchEffect
+  background: RetouchBackground
+  adjustment: RetouchAdjustment
 }
 
 export interface RetouchActions {
   setImage(image: string): void
-  setColor(color: string): void
-  setGradient(gradient: number): void
-  setEffect(effect: RetouchEffect): void
-  setEffect(effect: RetouchEffect): void
+  setBackground(background: RetouchBackground): void
+  setAdjustment(adjustment: RetouchAdjustment): void
   reset(): void
 }
 
@@ -67,9 +85,14 @@ export interface RetouchStore extends RetouchState, RetouchActions {}
 export const defaultRetouchState: RetouchState = {
   image:
     'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=1080&q=80',
-  color: '#ffffff',
-  gradient: 0,
-  effect: {},
+  background: {
+    color: '#ffffff',
+    gradient: {
+      angle: 'c',
+      brightness: 0,
+    },
+  },
+  adjustment: {},
 }
 
 export const useRetouchStore = create<RetouchStore>((set, get) => ({
@@ -77,14 +100,11 @@ export const useRetouchStore = create<RetouchStore>((set, get) => ({
   setImage(image: string) {
     set({ ...defaultRetouchState, image })
   },
-  setColor(color: string) {
-    set({ color })
+  setBackground(background: RetouchBackground) {
+    set({ background })
   },
-  setGradient(gradient: number) {
-    set({ gradient })
-  },
-  setEffect(effect: RetouchEffect) {
-    set({ effect: { ...get().effect, ...effect } })
+  setAdjustment(adjustment: RetouchAdjustment) {
+    set({ adjustment: { ...get().adjustment, ...adjustment } })
   },
   reset() {
     set(defaultRetouchState)

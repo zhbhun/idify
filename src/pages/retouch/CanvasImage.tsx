@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useMemo, useRef } from 'react'
 import fx, { FxCanvasElement, FxTexture } from '@/vendors/glfx'
 import Box from '@mui/material/Box'
+import { RetouchAdjustment, useRetouchStore } from '@/stores'
+import { createGLFXCanvas, renderGLFXAdjustment } from '@/uitls'
 
 export interface CanvasImageProps {
   image: string
@@ -11,11 +13,11 @@ export function CanvasImage({ image }: CanvasImageProps) {
   const imgRef = useRef<HTMLImageElement>(null)
   const canvasRef = useRef<FxCanvasElement | null>(null)
   const textureRef = useRef<FxTexture | null>(null)
-  const render = useCallback(() => {
+  const render = useCallback((adjustment: RetouchAdjustment) => {
     const { current: canvas } = canvasRef
     const { current: texture } = textureRef
     if (canvas && texture) {
-      canvas.draw(texture).brightnessContrast(0, 0).update()
+      renderGLFXAdjustment(canvas, texture, adjustment)
     }
   }, [])
   const handleLoad = useCallback(() => {
@@ -24,17 +26,20 @@ export function CanvasImage({ image }: CanvasImageProps) {
     if (!containerEle || !imgEle) {
       return () => {}
     }
-    const canvas = fx.canvas()
+    const { canvas, texture } = createGLFXCanvas(imgEle)
     canvasRef.current = canvas
-    containerEle.appendChild(canvas)
-    const texture = canvas.texture(imgEle)
     textureRef.current = texture
-    render()
+    containerEle.appendChild(canvas)
+    render(useRetouchStore.getState().adjustment)
   }, [render])
+  const adjustment = useRetouchStore((state) => state.adjustment)
+  useEffect(() => {
+    render(adjustment)
+  }, [render, adjustment])
   useEffect(() => {
     return () => {
-      textureRef.current?.destroy();
-      canvasRef.current?.remove();
+      textureRef.current?.destroy()
+      canvasRef.current?.remove()
     }
   }, [])
   const container = useMemo(() => {

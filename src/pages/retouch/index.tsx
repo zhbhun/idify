@@ -1,26 +1,18 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 import { useSnackbar } from 'notistack'
 import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined'
 import AppBar from '@mui/material/AppBar'
 import Box from '@mui/material/Box'
-import ButtonGroup from '@mui/material/ButtonGroup'
-import Stack from '@mui/material/Stack'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 import { useAdaptedSize } from '@/hooks'
 import { useAppStore, useCropStore, useRetouchStore } from '@/stores'
 import { createIDPhoto } from '@/uitls'
-import {
-  CloseButton,
-  DarkButton,
-  SaveButton,
-  TextureBackground,
-} from '@/components'
-import BackgroundColor from './BackgroundColor'
+import { CloseButton, SaveButton, TextureBackground } from '@/components'
+import BackgroundPreview from './BackgroundPreview'
+import BottomBar from './BottomBar'
 import CanvasImage from './CanvasImage'
-import ColorPicker from './ColorPicker'
-
 const theme = createTheme({
   palette: {
     mode: 'dark',
@@ -37,37 +29,32 @@ export interface ImageRetouchProps {}
 export default function ImageRetouch(props: ImageRetouchProps) {
   const spec = useCropStore((state) => state.spec)
   const image = useRetouchStore((state) => state.image)
-  const onClose = useAppStore((state) => state.cancel)
-  const containerRef = useRef<HTMLElement>(null)
   const { enqueueSnackbar } = useSnackbar()
   const size = useAdaptedSize(spec)
-  const [gradient, setGradient] = useState(0)
-  const [color, setColor] = useState(spec.color)
-  const [colorPickerOpen, setColorPickerOpen] = useState(false)
-
   // image cache to replace empty image while page desotry
   const imageRef = useRef(image)
   useEffect(() => {
     if (image) {
-      imageRef.current
+      imageRef.current = image
     }
   }, [image])
-
   useEffect(() => {
     window.gtag?.('event', 'expose', {
       object: 'editor',
     })
   }, [])
-
-  const onSave = useCallback(async () => {
+  const handleClose = useAppStore((state) => state.cancel)
+  const handleSave = useCallback(async () => {
     try {
       window.gtag?.('event', 'click', {
         object: 'save',
       })
+      const { spec } = useCropStore.getState()
+      const { image, background, adjustment } = useRetouchStore.getState()
       const idPhoto = await createIDPhoto({
         image,
-        color,
-        gradient,
+        background,
+        adjustment,
         resolution: spec.resolution,
       })
       const a = document.createElement('a')
@@ -78,29 +65,29 @@ export default function ImageRetouch(props: ImageRetouchProps) {
         object: 'save_success',
       })
     } catch (error) {
-      enqueueSnackbar('Save failed.', {
-        variant: 'error',
-      })
       window.gtag?.('event', 'click', {
         object: 'save_fail',
       })
+      enqueueSnackbar('Save failed.', {
+        variant: 'error',
+      })
     }
-  }, [image, color, gradient, spec, enqueueSnackbar])
+  }, [enqueueSnackbar])
   return (
     <ThemeProvider theme={theme}>
-      <Box ref={containerRef} className="absolute inset-0">
+      <Box className="absolute inset-0">
         <TextureBackground className="bg-white" />
         <AppBar className="bg-transparent" position="fixed" elevation={0}>
           <Toolbar>
             <CloseButton
               className="mr-4"
               icon={<ArrowBackOutlinedIcon />}
-              onClick={onClose}
+              onClick={handleClose}
             />
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               Retouch (2/2)
             </Typography>
-            <SaveButton onClick={onSave} />
+            <SaveButton onClick={handleSave} />
           </Toolbar>
         </AppBar>
         <Box
@@ -113,55 +100,10 @@ export default function ImageRetouch(props: ImageRetouchProps) {
             height: size.height,
           }}
         >
-          <BackgroundColor
-            color={color}
-            gradient={gradient}
-            width={size.width}
-            height={size.height}
-          />
+          <BackgroundPreview width={size.width} height={size.height} />
           <CanvasImage image={image || imageRef.current} />
         </Box>
-        <Stack
-          className="absolute bottom-0 left-1/2 w-auto px-[12px] pb-[10px] -translate-x-1/2"
-          direction="row"
-          spacing={1}
-        >
-          <ButtonGroup size="small" variant="contained">
-            <DarkButton
-              onClick={() => {
-                setColorPickerOpen(true)
-              }}
-            >
-              <Box
-                className="relative w-[20px] h-[20px] rounded-sm overflow-hidden"
-                sx={{
-                  backgroundImage: `url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2 2"><path d="M1 2V0h1v1H0v1z" fill-opacity=".025"/></svg>')`,
-                  backgroundSize: '20px 20px',
-                  backgroundColor: '#fff',
-                }}
-              >
-                <Box
-                  className="absolute inset-0"
-                  sx={{
-                    backgroundColor: color,
-                  }}
-                />
-              </Box>
-            </DarkButton>
-          </ButtonGroup>
-        </Stack>
-        {colorPickerOpen ? (
-          <ColorPicker
-            open={colorPickerOpen}
-            value={color}
-            gradient={gradient}
-            onClose={() => {
-              setColorPickerOpen(false)
-            }}
-            onChange={setColor}
-            onGradientChange={setGradient}
-          />
-        ) : null}
+        <BottomBar />
       </Box>
     </ThemeProvider>
   )

@@ -8,8 +8,6 @@ import Face6Icon from '@mui/icons-material/Face6'
 import SaveIcon from '@mui/icons-material/Save'
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
-import ClickAwayListener from '@mui/material/ClickAwayListener'
-import Fade from '@mui/material/Fade'
 import IconButton from '@mui/material/IconButton'
 import OutlinedInput from '@mui/material/OutlinedInput'
 import List from '@mui/material/List'
@@ -29,13 +27,11 @@ const SPEC_ICONS = [
 ]
 
 export interface SpecPickerProps {
-  open: boolean
   value: IDPhotoSpec
-  onClose?(): void
   onPick?(value: IDPhotoSpec): void
 }
 
-export function SpecPicker({ open, value, onClose, onPick }: SpecPickerProps) {
+export function SpecPicker({ value, onPick }: SpecPickerProps) {
   const [width, setWidth] = useState(value.resolution.width)
   const [widthInput, setWidthInput] = useState(String(width))
   const [height, setHeight] = useState(value.resolution.height)
@@ -46,9 +42,6 @@ export function SpecPicker({ open, value, onClose, onPick }: SpecPickerProps) {
   useEffect(() => {
     setHeightInput(String(height))
   }, [height])
-  const handleClose = () => {
-    onClose?.()
-  }
   return (
     <Card elevation={0}>
       <Box className="flex justify-between items-center py-[10px] px-[15px]">

@@ -7,9 +7,10 @@ import Button from '@mui/material/Button'
 import Divider from '@mui/material/Divider'
 import Paper from '@mui/material/Paper'
 import Stack from '@mui/material/Stack'
-import { RangePicker, SpecPicker } from '@/components'
+import { RangePicker } from '@/components'
 import { CROPPER_ZOOM_MAX, CROPPER_ZOOM_MIN } from '@/config'
 import { useCropStore } from '@/stores'
+import SpecPicker from './SpecPicker'
 
 type ActiveType = '' | 'spec' | 'zoom' | 'rotate' | 'flip'
 
