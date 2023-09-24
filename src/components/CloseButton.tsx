@@ -12,15 +12,13 @@ export function CloseButton({ className, icon, ...props }: CloseButtonProps) {
     <Box
       {...props}
       className={classNames(
-        'absolute top-[15px] left-[14px] flex items-center justify-center w-[49px] h-[49px] cursor-pointer',
+        'relative flex items-center justify-center w-[40px] h-[40px] cursor-pointer sm:w-[48px] sm:h-[48px]',
         className
       )}
     >
       <svg
-        className="absolute inset-0"
+        className="absolute inset-0 w-full h-full"
         xmlns="http://www.w3.org/2000/svg"
-        width="49"
-        height="49"
         viewBox="0 0 49 49"
       >
         <path
@@ -32,10 +30,10 @@ export function CloseButton({ className, icon, ...props }: CloseButtonProps) {
       </svg>
       {icon ? (
         cloneElement(icon, {
-          className: 'relative text-3xl text-white',
+          className: 'relative text-2xl text-white',
         })
       ) : (
-        <CloseIcon className="relative text-3xl text-white" />
+        <CloseIcon className="relative text-2xl text-white" />
       )}
     </Box>
   )

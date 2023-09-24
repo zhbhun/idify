@@ -12,7 +12,7 @@ export function SaveButton({ className, icon, ...props }: SaveButtonProps) {
     <Box
       {...props}
       className={classNames(
-        'absolute top-[14px] right-[14px] flex items-center justify-center w-[49px] h-[53px] cursor-pointer',
+        'relative flex items-center justify-center w-[40px] h-[40px] cursor-pointer sm:w-[48px] sm:h-[48px]',
         className
       )}
     >
@@ -32,10 +32,10 @@ export function SaveButton({ className, icon, ...props }: SaveButtonProps) {
       </svg>
       {icon ? (
         cloneElement(icon, {
-          className: 'relative text-3xl text-white',
+          className: 'relative text-2xl text-white',
         })
       ) : (
-        <SaveIcon className="relative text-3xl text-white" />
+        <SaveIcon className="relative text-2xl text-white" />
       )}
     </Box>
   )

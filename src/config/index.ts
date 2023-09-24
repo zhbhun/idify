@@ -1,12 +1,14 @@
 import { IDPhotoSpec } from '@/types'
 
-export const EDITOR_ZOOM_MIN = 0.1
+export const CROPPER_ZOOM_MIN = 0.5
 
-export const EDITOR_ZOOM_MAX = 10
+export const CROPPER_ZOOM_MAX = 2
+
+export const BOTTOM_WIDTH_PC = 400
 
 export const ID_PHOTO_SPECS: IDPhotoSpec[] = [
   {
-    name: 'one-inch', 
+    name: 'one-inch',
     title: 'One inch',
     aspectRatio: 295 / 413,
     resolution: {

@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 function getCropSize(spec: IDPhotoSpec) {
   const { resolution } = spec
   const maxWidth = window.innerWidth - 100
-  const maxHeight = window.innerHeight - 200
+  const maxHeight = window.innerHeight - 250
   if (resolution.width < maxWidth && resolution.height < maxHeight) {
     return resolution
   }

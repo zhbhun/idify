@@ -2,8 +2,13 @@ import classNames from 'classnames'
 import { CSSProperties, ReactNode, useEffect, useMemo, useRef } from 'react'
 import { AnimatedProps, animated, useTransition } from '@react-spring/web'
 import useMediaQuery from '@mui/material/useMediaQuery'
-import { ImageCropper, ImageRetouch } from '@/components'
+import { usePC } from '@/hooks'
+import Cropper from './cropper'
+import Retouch from './retouch'
+import Welcome from './welcome'
 import { useAppStore } from '@/stores'
+
+export { Cropper, Retouch, Welcome }
 
 function Page({
   index,
@@ -29,7 +34,7 @@ function Page({
 export function PageSwitch() {
   const index = useAppStore((state) => state.step)
   const indexRef = useRef(index)
-  const pc = useMediaQuery('(min-width:640px)')
+  const pc = usePC()
   const [transitions, transRef] = useTransition(
     index,
     () =>
@@ -60,13 +65,13 @@ export function PageSwitch() {
     if (i === 1) {
       return (
         <Page index={i} style={style}>
-          <ImageCropper />
+          <Cropper />
         </Page>
       )
     } else if (i === 2) {
       return (
         <Page index={i} style={style}>
-          <ImageRetouch />
+          <Retouch />
         </Page>
       )
     }

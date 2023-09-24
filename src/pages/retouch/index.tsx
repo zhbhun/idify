@@ -1,17 +1,22 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useSnackbar } from 'notistack'
 import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined'
+import AppBar from '@mui/material/AppBar'
 import Box from '@mui/material/Box'
 import ButtonGroup from '@mui/material/ButtonGroup'
 import Stack from '@mui/material/Stack'
+import Toolbar from '@mui/material/Toolbar'
+import Typography from '@mui/material/Typography'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 import { useAdaptedSize } from '@/hooks'
 import { useAppStore, useCropStore, useRetouchStore } from '@/stores'
 import { createIDPhoto } from '@/uitls'
-import CloseButton from '../CloseButton'
-import DarkButton from '../DarkButton'
-import SaveButton from '../SaveButton'
-import TextureBackground from '../TextureBackground'
+import {
+  CloseButton,
+  DarkButton,
+  SaveButton,
+  TextureBackground,
+} from '@/components'
 import BackgroundColor from './BackgroundColor'
 import CanvasImage from './CanvasImage'
 import ColorPicker from './ColorPicker'
@@ -29,7 +34,7 @@ const theme = createTheme({
 
 export interface ImageRetouchProps {}
 
-export function ImageRetouch(props: ImageRetouchProps) {
+export default function ImageRetouch(props: ImageRetouchProps) {
   const spec = useCropStore((state) => state.spec)
   const image = useRetouchStore((state) => state.image)
   const onClose = useAppStore((state) => state.cancel)
@@ -85,6 +90,19 @@ export function ImageRetouch(props: ImageRetouchProps) {
     <ThemeProvider theme={theme}>
       <Box ref={containerRef} className="absolute inset-0">
         <TextureBackground className="bg-white" />
+        <AppBar className="bg-transparent" position="fixed" elevation={0}>
+          <Toolbar>
+            <CloseButton
+              className="mr-4"
+              icon={<ArrowBackOutlinedIcon />}
+              onClick={onClose}
+            />
+            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+              Retouch (2/2)
+            </Typography>
+            <SaveButton onClick={onSave} />
+          </Toolbar>
+        </AppBar>
         <Box
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
           sx={{
@@ -132,8 +150,6 @@ export function ImageRetouch(props: ImageRetouchProps) {
             </DarkButton>
           </ButtonGroup>
         </Stack>
-        <CloseButton icon={<ArrowBackOutlinedIcon />} onClick={onClose} />
-        <SaveButton onClick={onSave} />
         {colorPickerOpen ? (
           <ColorPicker
             open={colorPickerOpen}

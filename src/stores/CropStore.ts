@@ -6,6 +6,8 @@ export interface CropState {
   image: string
   spec: IDPhotoSpec
   position: { x: number; y: number }
+  flipHorizontal: boolean
+  flipVertical: boolean
   rotation: number
   zoom: number
   area: {
@@ -20,6 +22,8 @@ export interface CropActions {
   setSpec(spec: IDPhotoSpec): void
   setImage(image: string): void
   setPosition(position: CropState['position']): void
+  setFlipHorizontal(flipHorizontal: boolean): void
+  setFlipVertical(flipVertical: boolean): void
   setRotation(
     rotation:
       | CropState['rotation']
@@ -36,11 +40,14 @@ export interface CropStore extends CropState, CropActions {}
 
 export const defaultCropState: CropState = {
   spec: ID_PHOTO_SPECS[0],
-  image: '',
+  image:
+    'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=1080&q=80',
   position: {
     x: 0,
     y: 0,
   },
+  flipHorizontal: false,
+  flipVertical: false,
   rotation: 0,
   zoom: 1,
   area: {
@@ -61,6 +68,12 @@ export const useCropStore = create<CropStore>((set, get) => ({
   },
   setPosition(position) {
     set({ position })
+  },
+  setFlipHorizontal(flipHorizontal: boolean) {
+    set({ flipHorizontal })
+  },
+  setFlipVertical(flipVertical: boolean) {
+    set({ flipVertical })
   },
   setRotation(rotation) {
     if (typeof rotation === 'function') {

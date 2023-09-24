@@ -50,142 +50,129 @@ export function SpecPicker({ open, value, onClose, onPick }: SpecPickerProps) {
     onClose?.()
   }
   return (
-    <ClickAwayListener
-      onClickAway={() => {
-        if (open === true) {
-          handleClose()
-        }
-      }}
-    >
-      <Fade appear in={open} timeout={300}>
-        <Card
-          className="absolute z-1 bottom-0 left-1/2 w-full -translate-x-1/2 sm:bottom-[60px] sm:w-[400px]"
-          elevation={6}
+    <Card elevation={0}>
+      <Box className="flex justify-between items-center py-[10px] px-[15px]">
+        <OutlinedInput
+          required
+          inputProps={{
+            inputMode: 'numeric',
+            pattern: '[0-9]*',
+          }}
+          startAdornment={<span>W&nbsp;</span>}
+          size="small"
+          type="number"
+          value={widthInput}
+          onChange={(e) => {
+            setWidthInput(e.target.value)
+          }}
+          onBlur={(e) => {
+            const newWidth = Number(e.target.value)
+            if (newWidth > 1000) {
+              setWidth(1000)
+            } else if (newWidth < 100) {
+              setWidth(100)
+            } else {
+              setWidth(newWidth)
+            }
+          }}
+        />
+        <OutlinedInput
+          className="ml-[10px]"
+          required
+          inputProps={{
+            inputMode: 'numeric',
+            pattern: '[0-9]*',
+          }}
+          startAdornment={<span>H&nbsp;</span>}
+          size="small"
+          type="number"
+          value={heightInput}
+          onChange={(e) => {
+            setHeightInput(e.target.value)
+          }}
+          onBlur={(e) => {
+            const newHeight = Number(e.target.value)
+            if (newHeight > 1000) {
+              setHeight(1000)
+            } else if (newHeight < 100) {
+              setHeight(100)
+            } else {
+              setHeight(newHeight)
+            }
+          }}
+        />
+        <IconButton
+          className="ml-[5px]"
+          onClick={() => {
+            onPick?.({
+              name: 'cusotm',
+              title: 'Custom',
+              aspectRatio: width / height,
+              resolution: {
+                width: width,
+                height: height,
+              },
+              dimension: {
+                width: Math.round((width / 300) * 25.4),
+                height: Math.round((height / 300) * 25.4),
+              },
+              color: '#ffffff',
+            })
+          }}
         >
-          <Box className="flex justify-between items-center py-[10px] px-[15px]">
-            <OutlinedInput
-              required
-              inputProps={{
-                inputMode: 'numeric',
-                pattern: '[0-9]*',
-              }}
-              startAdornment={<span>W&nbsp;</span>}
-              size="small"
-              type="number"
-              value={widthInput}
-              onChange={(e) => {
-                setWidthInput(e.target.value)
-              }}
-              onBlur={(e) => {
-                const newWidth = Number(e.target.value)
-                if (newWidth > 1000) {
-                  setWidth(1000)
-                } else if (newWidth < 100) {
-                  setWidth(100)
-                } else {
-                  setWidth(newWidth)
-                }
-              }}
-            />
-            <OutlinedInput
-              className="ml-[10px]"
-              required
-              inputProps={{
-                inputMode: 'numeric',
-                pattern: '[0-9]*',
-              }}
-              startAdornment={<span>H&nbsp;</span>}
-              size="small"
-              type="number"
-              value={heightInput}
-              onChange={(e) => {
-                setHeightInput(e.target.value)
-              }}
-              onBlur={(e) => {
-                const newHeight = Number(e.target.value)
-                if (newHeight > 1000) {
-                  setHeight(1000)
-                } else if (newHeight < 100) {
-                  setHeight(100)
-                } else {
-                  setHeight(newHeight)
-                }
-              }}
-            />
-            <IconButton
-              className="ml-[5px]"
+          <SaveIcon />
+        </IconButton>
+      </Box>
+      <List
+        className="max-h-[300px] overflow-y-auto"
+        sx={{
+          '&::-webkit-scrollbar': {
+            width: '6px',
+            height: '6px',
+            backgroundColor: 'transparent',
+          },
+          '&::-webkit-scrollbar-button': {
+            display: 'none',
+          },
+          '&::-webkit-scrollbar-track': {
+            backgroundColor: 'transparent',
+          },
+          '&::-webkit-scrollbar-thumb': {
+            backgroundColor: '#666',
+            borderRadius: '8px',
+            border: '2px solid #666',
+          },
+          '&::-webkit-scrollbar-thumb:hover': {
+            backgroundColor: '#888',
+            borderColor: '#888',
+          },
+          '::-webkit-scrollbar-corner': {
+            display: 'none',
+          },
+        }}
+      >
+        {ID_PHOTO_SPECS.map((spec, index) => {
+          const { name, title, resolution, dimension } = spec
+          return (
+            <ListItemButton
+              key={name}
+              selected={value === spec}
               onClick={() => {
-                onPick?.({
-                  name: 'cusotm',
-                  title: 'Custom',
-                  aspectRatio: width / height,
-                  resolution: {
-                    width: width,
-                    height: height,
-                  },
-                  dimension: {
-                    width: Math.round((width / 300) * 25.4),
-                    height: Math.round((height / 300) * 25.4),
-                  },
-                  color: '#ffffff',
-                })
+                onPick?.(spec)
               }}
             >
-              <SaveIcon />
-            </IconButton>
-          </Box>
-          <List
-            className="max-h-[300px] overflow-y-auto"
-            sx={{
-              '&::-webkit-scrollbar': {
-                width: '6px',
-                height: '6px',
-                backgroundColor: 'transparent',
-              },
-              '&::-webkit-scrollbar-button': {
-                display: 'none',
-              },
-              '&::-webkit-scrollbar-track': {
-                backgroundColor: 'transparent',
-              },
-              '&::-webkit-scrollbar-thumb': {
-                backgroundColor: '#666',
-                borderRadius: '8px',
-                border: '2px solid #666',
-              },
-              '&::-webkit-scrollbar-thumb:hover': {
-                backgroundColor: '#888',
-                borderColor: '#888',
-              },
-              '::-webkit-scrollbar-corner': {
-                display: 'none',
-              },
-            }}
-          >
-            {ID_PHOTO_SPECS.map((spec, index) => {
-              const { name, title, resolution, dimension } = spec
-              return (
-                <ListItemButton
-                  key={name}
-                  selected={value === spec}
-                  onClick={() => {
-                    onPick?.(spec)
-                  }}
-                >
-                  <ListItemIcon>
-                    {SPEC_ICONS[index % SPEC_ICONS.length]}
-                  </ListItemIcon>
-                  <ListItemText
-                    primary={title}
-                    secondary={`${resolution.width}*${resolution.height}px | ${dimension.width}*${dimension.height}mm`}
-                  />
-                </ListItemButton>
-              )
-            })}
-          </List>
-        </Card>
-      </Fade>
-    </ClickAwayListener>
+              <ListItemIcon>
+                {SPEC_ICONS[index % SPEC_ICONS.length]}
+              </ListItemIcon>
+              <ListItemText
+                primary={title}
+                secondary={`${resolution.width}*${resolution.height}px | ${dimension.width}*${dimension.height}mm`}
+              />
+            </ListItemButton>
+          )
+        })}
+      </List>
+    </Card>
   )
 }
 

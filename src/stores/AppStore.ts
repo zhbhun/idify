@@ -19,7 +19,7 @@ export interface AppActions {
 }
 
 export const defaultAppState: AppState = {
-  step: 0,
+  step: 2,
 }
 
 export interface AppStore extends AppState, AppActions {}

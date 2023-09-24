@@ -1,11 +1,11 @@
 import Box from '@mui/material/Box'
-import { PageSwitch, Welcome } from '@/components'
+import Pages, { Welcome } from '@/pages'
 
 function App() {
   return (
     <Box className="absolute inset-0 overflow-hidden">
       <Welcome />
-      <PageSwitch />
+      <Pages />
     </Box>
   )
 }

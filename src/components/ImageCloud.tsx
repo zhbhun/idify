@@ -7,8 +7,8 @@ import { useAppStore, useCropStore, useSegementStore } from '@/stores'
 
 const DAEMON_WIDTH = 68
 const DAEMON_HEIGHT = 68
-const DAEMON_TOP = 4
-const DAEMON_RIGHT = 4
+const DAEMON_TOP = -6
+const DAEMON_RIGHT = 12
 
 export interface ImageCloudProps {
   rect: DOMRect
@@ -49,7 +49,7 @@ export const ImageCloud = forwardRef<HTMLDivElement, ImageCloudProps>(
         className={classNames(
           'relative flex flex-col items-center justify-center w-full h-full',
           {
-            '!fixed !z-[10] !top-[4px] !right-[4px]': daemon,
+            '!fixed !z-[10] !top-[-6px] !right-[12px]': daemon,
           }
         )}
         sx={{

@@ -2,18 +2,20 @@ import { useEffect, useRef } from 'react'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import { useAppStore, useSegementStore } from '@/stores'
-import BlobAnimation from './BlobAnimation'
-import GithubLink from './GithubLink'
-import ImageCloud from './ImageCloud'
-import LayoutBox from './LayoutBox'
-import TextureBackground from './TextureBackground'
-import WaveSea from './WaveSea'
+import {
+  BlobAnimation,
+  GithubLink,
+  ImageCloud,
+  LayoutBox,
+  TextureBackground,
+  WaveSea,
+} from '@/components'
 
-export function Welcome() {
+export default function Welcome() {
   const cloudRef = useRef<HTMLDivElement>(null)
   const step = useAppStore((state) => state.step)
   const daemon = step === 1
-  const hidden = useSegementStore((state) => !!state.result)
+  const hidden = useSegementStore((state) => !!state.result) || step > 1
   const visible = !hidden
   useEffect(() => {
     if (visible) {
@@ -61,5 +63,3 @@ export function Welcome() {
     </Box>
   )
 }
-
-export default Welcome
