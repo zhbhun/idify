@@ -28,10 +28,9 @@ export interface SegmentActions {
 export interface SegmentStore extends SegmentState, SegmentActions {}
 
 export const defaultSegementState: SegmentState = {
-  image:
-    'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=1080&q=80',
+  image: '',
   error: null,
-  loading: true,
+  loading: false,
   progress: 0,
   step: 0,
   result: '',

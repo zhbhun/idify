@@ -1,9 +1,5 @@
-import chroma from 'chroma-js'
-import { useCallback, useEffect, useState } from 'react'
-import GradientIcon from '@mui/icons-material/Gradient'
+import { useCallback } from 'react'
 import Box from '@mui/material/Box'
-import Card from '@mui/material/Card'
-import CardContent from '@mui/material/CardContent'
 import ToggleButton from '@mui/material/ToggleButton'
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup'
 import { RangePicker } from '@/components'
@@ -51,7 +47,7 @@ export function ColorPicker() {
     [setGradient]
   )
   return (
-    <Card className="pt-[12px]" elevation={0}>
+    <Box className="p-[16px] pb-0">
       <Box className="flex justify-center">
         <ToggleButtonGroup
           className="m-auto px-[16px]"
@@ -89,7 +85,7 @@ export function ColorPicker() {
         format={(value) => Math.round(value * 10)}
         onChange={setBrightness}
       />
-    </Card>
+    </Box>
   )
 }
 

@@ -83,8 +83,7 @@ export interface RetouchActions {
 export interface RetouchStore extends RetouchState, RetouchActions {}
 
 export const defaultRetouchState: RetouchState = {
-  image:
-    'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=1080&q=80',
+  image: '',
   background: {
     color: '#ffffff',
     gradient: {

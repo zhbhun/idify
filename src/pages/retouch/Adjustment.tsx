@@ -19,7 +19,7 @@ export function Adjustment() {
   }
 
   return (
-    <Card elevation={0}>
+    <Box>
       <Tabs
         TabIndicatorProps={{
           hidden: true,
@@ -117,7 +117,7 @@ export function Adjustment() {
           />
         ) : null}
       </Box>
-    </Card>
+    </Box>
   )
 }
 

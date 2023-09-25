@@ -12,7 +12,7 @@ export function TextureBackground({
     <Box
       {...props}
       className={classNames(
-        'absolute -z-1 inset-0 w-full h-full overflow-hidden',
+        'absolute inset-0 w-full h-full overflow-hidden',
         className
       )}
       sx={{

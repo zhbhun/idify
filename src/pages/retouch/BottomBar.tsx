@@ -17,9 +17,9 @@ export function BottomBar() {
   const [active, setActive] = useState<ActiveType>('')
   return (
     <Paper
-      className="absolute bottom-0 left-0 w-full rounded-t-2xl overflow-hidden sm:left-1/2 sm:w-[400px] sm:-translate-x-1/2"
+      className="flex flex-col grow-0 shrink-0 rounded-t-2xl overflow-hidden sm:mx-auto sm:w-[400px]"
       square
-      elevation={0}
+      elevation={6}
     >
       {active === 'color' ? <BackgroundColorPicker /> : null}
       {active === 'gradient' ? <BackgroundGraientPicker /> : null}

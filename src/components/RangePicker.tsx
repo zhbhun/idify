@@ -7,8 +7,7 @@ import {
   useMemo,
   useRef,
 } from 'react'
-import Box from '@mui/material/Box'
-import Paper, { PaperProps } from '@mui/material/Paper'
+import Box, { BoxProps } from '@mui/material/Box'
 import { BOTTOM_WIDTH_PC } from '@/config'
 import { usePC } from '@/hooks'
 
@@ -16,8 +15,7 @@ const DOT_LARGE_SIZE = 2
 const DOT_SMALL_SIZE = 0.75
 const DOT_INTERVAL = 10
 
-export interface RangePickerProps
-  extends Omit<PaperProps, 'value' | 'onChange'> {
+export interface RangePickerProps extends Omit<BoxProps, 'value' | 'onChange'> {
   value: number
   max: number
   min: number
@@ -98,11 +96,9 @@ export function RangePicker({
     ((value - min) / step) * DOT_INTERVAL +
     (pc ? BOTTOM_WIDTH_PC : window.innerWidth) / 2
   return (
-    <Paper
+    <Box
       {...props}
       className={classNames('relative overflow-hidden', className)}
-      square
-      elevation={0}
       sx={{
         borderTopLeftRadius: 12,
         borderTopRightRadius: 12,
@@ -157,7 +153,7 @@ export function RangePicker({
       >
         {`${format ? format(value) : value}${unit}`}
       </Box>
-    </Paper>
+    </Box>
   )
 }
 

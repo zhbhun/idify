@@ -1,10 +1,16 @@
 import { IDPhotoSpec } from '@/types'
 import { useEffect, useState } from 'react'
 
-function getCropSize(spec: IDPhotoSpec) {
+function getCropSize(
+  spec: IDPhotoSpec,
+  limit: { width: number; height: number } = {
+    width: window.innerWidth - 100,
+    height: window.innerHeight - 250,
+  }
+) {
   const { resolution } = spec
-  const maxWidth = window.innerWidth - 100
-  const maxHeight = window.innerHeight - 250
+  const maxWidth = limit.width
+  const maxHeight = limit.height
   if (resolution.width < maxWidth && resolution.height < maxHeight) {
     return resolution
   }
@@ -22,11 +28,17 @@ function getCropSize(spec: IDPhotoSpec) {
   }
 }
 
-export function useAdaptedSize(spec: IDPhotoSpec): {
+export function useAdaptedSize(
+  spec: IDPhotoSpec,
+  limit?: {
+    width: number
+    height: number
+  }
+): {
   width: number
   height: number
 } {
-  const [size, setSize] = useState(() => getCropSize(spec))
+  const [size, setSize] = useState(() => getCropSize(spec, limit))
   useEffect(() => {
     const setSizeIfNeed = (newSize: { width: number; height: number }) => {
       setSize((prevSize) => {
@@ -39,14 +51,17 @@ export function useAdaptedSize(spec: IDPhotoSpec): {
         return prevSize
       })
     }
-    setSizeIfNeed(getCropSize(spec))
-    const handleResize = () => {
-      setSizeIfNeed(getCropSize(spec))
+    setSizeIfNeed(getCropSize(spec, limit))
+    if (!limit) {
+      const handleResize = () => {
+        setSizeIfNeed(getCropSize(spec))
+      }
+      window.addEventListener('resize', handleResize)
+      return () => {
+        window.removeEventListener('resize', handleResize)
+      }
     }
-    window.addEventListener('resize', handleResize)
-    return () => {
-      window.removeEventListener('resize', handleResize)
-    }
-  }, [spec])
+    return () => {}
+  }, [spec, limit])
   return size
 }

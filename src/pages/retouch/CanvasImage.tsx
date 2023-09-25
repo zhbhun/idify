@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useMemo, useRef } from 'react'
 import fx, { FxCanvasElement, FxTexture } from '@/vendors/glfx'
 import Box from '@mui/material/Box'
-import { RetouchAdjustment, useRetouchStore } from '@/stores'
+import { RetouchAdjustment, useCropStore, useRetouchStore } from '@/stores'
 import { createGLFXCanvas, renderGLFXAdjustment } from '@/uitls'
+import { useMeasure } from 'react-use'
 
 export interface CanvasImageProps {
   image: string
@@ -13,6 +14,7 @@ export function CanvasImage({ image }: CanvasImageProps) {
   const imgRef = useRef<HTMLImageElement>(null)
   const canvasRef = useRef<FxCanvasElement | null>(null)
   const textureRef = useRef<FxTexture | null>(null)
+
   const render = useCallback((adjustment: RetouchAdjustment) => {
     const { current: canvas } = canvasRef
     const { current: texture } = textureRef
@@ -31,17 +33,38 @@ export function CanvasImage({ image }: CanvasImageProps) {
     textureRef.current = texture
     containerEle.appendChild(canvas)
     render(useRetouchStore.getState().adjustment)
+    imgEle.style.opacity = '0'
   }, [render])
+
+  const [measureRef, measureRect] = useMeasure<HTMLDivElement>()
+  useEffect(() => {
+    const { current: canvas } = canvasRef
+    const { current: imgEle } = imgRef
+    if (canvas && imgEle) {
+      canvas
+      const texture = canvas.texture(imgEle)
+      textureRef.current = texture
+      render(useRetouchStore.getState().adjustment)
+    }
+  }, [render, measureRect])
+
   const adjustment = useRetouchStore((state) => state.adjustment)
   useEffect(() => {
-    render(adjustment)
-  }, [render, adjustment])
+    const { current: canvas } = canvasRef
+    if (canvas) {
+      canvas.width = measureRect.width
+      canvas.height = measureRect.height
+      render(adjustment)
+    }
+  }, [render, measureRect, adjustment])
+
   useEffect(() => {
     return () => {
       textureRef.current?.destroy()
       canvasRef.current?.remove()
     }
   }, [])
+
   const container = useMemo(() => {
     return (
       <Box
@@ -60,17 +83,21 @@ export function CanvasImage({ image }: CanvasImageProps) {
       />
     )
   }, [])
-  return (
-    <>
-      <img
-        ref={imgRef}
-        className="block absolute inset-0 w-full h-full"
-        crossOrigin="anonymous"
-        src={image}
-        onLoad={handleLoad}
-      />
-      {container}
-    </>
+
+  return useMemo(
+    () => (
+      <Box ref={measureRef} className="absolute inset-o w-full h-full">
+        <img
+          ref={imgRef}
+          className="block absolute top-0 left-0 w-[200%] h-[200%] scale-50 origin-top-left"
+          crossOrigin="anonymous"
+          src={image}
+          onLoad={handleLoad}
+        />
+        {container}
+      </Box>
+    ),
+    [measureRef, image, container, handleLoad]
   )
 }
 
