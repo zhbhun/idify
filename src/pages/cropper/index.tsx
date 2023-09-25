@@ -63,10 +63,10 @@ export default function Cropper() {
     }
   }, [segmentedImage, enqueueSnackbar])
   const handleClose = useCallback(() => {
-    const { cancel } = useAppStore.getState()
+    const { reset } = useAppStore.getState()
     const { result } = useSegementStore.getState()
     if (result) {
-      cancel()
+      reset()
     } else {
       // force reset segment
       location.reload()

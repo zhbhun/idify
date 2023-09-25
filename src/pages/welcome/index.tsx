@@ -15,7 +15,8 @@ export default function Welcome() {
   const cloudRef = useRef<HTMLDivElement>(null)
   const step = useAppStore((state) => state.step)
   const daemon = step === 1
-  const hidden = useSegementStore((state) => !!state.result) || step > 1
+  const hidden =
+    (useSegementStore((state) => !!state.result) && step >= 1) || step > 1
   const visible = !hidden
   useEffect(() => {
     if (visible) {
