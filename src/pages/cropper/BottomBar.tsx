@@ -34,11 +34,7 @@ export function BottomBar() {
     >
       {active === 'spec' ? (
         <SpecPicker
-          open
           value={spec}
-          onClose={() => {
-            setActive('')
-          }}
           onPick={(spec) => {
             setActive('')
             setSpec(spec)
