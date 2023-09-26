@@ -1,4 +1,5 @@
-import { useCallback } from 'react'
+import { useCallback, useMemo } from 'react'
+import { useMeasure } from 'react-use'
 import EaseCropper, { Area } from 'react-easy-crop'
 import Box from '@mui/material/Box'
 import { CROPPER_ZOOM_MAX, CROPPER_ZOOM_MIN } from '@/config'
@@ -6,9 +7,17 @@ import { useAdaptedSize } from '@/hooks'
 import { useCropStore, useSegementStore } from '@/stores'
 
 export function LiveCropper() {
+  const [measureRef, measureRect] = useMeasure<HTMLDivElement>()
   const [image, spec] = useCropStore((state) => [state.image, state.spec])
   const segmentedImage = useSegementStore((state) => state.result)
-  const cropSize = useAdaptedSize(spec)
+  const limit = useMemo(
+    () => ({
+      width: Math.max(measureRect.width - 100, 100),
+      height: Math.max(measureRect.height - 100, 100),
+    }),
+    [measureRect]
+  )
+  const cropSize = useAdaptedSize(spec, limit)
   const {
     position,
     setPosition,
@@ -28,13 +37,14 @@ export function LiveCropper() {
   )
   return (
     <Box
-      className="absolute inset-0 top-[100px] bottom-[150px]"
+      ref={measureRef}
+      className="relative flex flex-col justify-center items-center grow pt-[56px]"
       sx={{
         '& .reactEasyCrop_Container': {
           overflow: 'visible',
         },
         '& .reactEasyCrop_CropArea': {
-          color: segmentedImage ? 'rgba(0, 0, 0, 0.8)' : 'rgba(0, 0, 0, 0.6)',
+          color: 'rgba(0, 0, 0, 0.6)',
         },
       }}
     >

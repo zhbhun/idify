@@ -28,13 +28,16 @@ export function BottomBar() {
   } = useCropStore()
   return (
     <Paper
-      className="absolute bottom-0 left-0 w-full rounded-t-2xl overflow-hidden sm:left-1/2 sm:w-[400px] sm:-translate-x-1/2"
+      className="relative flex flex-col grow-0 shrink-0 rounded-t-2xl sm:mx-auto sm:w-[400px]"
       square
       elevation={0}
     >
       {active === 'spec' ? (
         <SpecPicker
           value={spec}
+          onClose={() => {
+            setActive('')
+          }}
           onPick={(spec) => {
             setActive('')
             setSpec(spec)

@@ -74,21 +74,26 @@ export default function Cropper() {
   }, [])
   return (
     <ThemeProvider theme={theme}>
-      <Box className="absolute inset-0 flex flex-col w-full h-full">
+      <Box className="absolute inset-0">
         {segmentedImage ? <TextureBackground className="bg-white" /> : null}
-        <AppBar className="bg-transparent" position="fixed" elevation={0}>
-          <Toolbar>
-            <CloseButton className="mr-4" onClick={handleClose} />
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              Crop (1/2)
-            </Typography>
-            {segmentedImage ? (
-              <SaveButton icon={<DoneAllOutlinedIcon />} onClick={handleSave} />
-            ) : null}
-          </Toolbar>
-        </AppBar>
-        <LiveCropper />
-        <BottomBar />
+        <Box className="relative z-0 flex flex-col w-full h-full">
+          <AppBar className="bg-transparent" position="fixed" elevation={0}>
+            <Toolbar>
+              <CloseButton className="mr-4" onClick={handleClose} />
+              <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                Crop (1/2)
+              </Typography>
+              {segmentedImage ? (
+                <SaveButton
+                  icon={<DoneAllOutlinedIcon />}
+                  onClick={handleSave}
+                />
+              ) : null}
+            </Toolbar>
+          </AppBar>
+          <LiveCropper />
+          <BottomBar />
+        </Box>
         <SegementAlert />
       </Box>
     </ThemeProvider>
