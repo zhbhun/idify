@@ -1,6 +1,6 @@
 import classNames from 'classnames'
 import {
-  PointerEvent,
+  PointerEvent as ReactPointerEvent,
   ReactNode,
   useCallback,
   useEffect,
@@ -38,6 +38,18 @@ export function RangePicker({
   onChange,
   ...props
 }: RangePickerProps) {
+  const propsRef = useRef({
+    max,
+    min,
+    step,
+    onChange,
+  })
+  useEffect(() => {
+    propsRef.current.max = max
+    propsRef.current.min = min
+    propsRef.current.step = step
+    propsRef.current.onChange = onChange
+  }, [max, min, step, onChange])
   const range = max - min
   const totalSteps = Math.round(range / step)
   const rangeWidth = totalSteps * DOT_INTERVAL + DOT_LARGE_SIZE * 2
@@ -65,31 +77,41 @@ export function RangePicker({
       valueRef.current = value
     }
   }, [value])
-  const handlePonterDown = useCallback((event: PointerEvent) => {
+  const handlePonterDown = useCallback((event: ReactPointerEvent) => {
     touchedRef.current = true
     touchStartXRef.current = event.clientX
-  }, [])
-  const handlePointerMove = useCallback(
-    (event: PointerEvent) => {
+    const handleMove = (event: PointerEvent) => {
       if (touchedRef.current) {
         const offsetX =
-          ((event.clientX - touchStartXRef.current) / DOT_INTERVAL) * step
-        onChange?.(Math.min(Math.max(valueRef.current - offsetX, min), max))
+          ((event.clientX - touchStartXRef.current) / DOT_INTERVAL) *
+          propsRef.current.step
+        propsRef.current.onChange?.(
+          Math.min(
+            Math.max(valueRef.current - offsetX, propsRef.current.min),
+            propsRef.current.max
+          )
+        )
       }
-    },
-    [min, max, step, onChange]
-  )
-  const handlePonterUp = useCallback(
-    (event: PointerEvent) => {
+    }
+    const handleUp = (event: PointerEvent) => {
       touchedRef.current = false
       const offsetX =
-        ((event.clientX - touchStartXRef.current) / DOT_INTERVAL) * step
-      const newValue = Math.min(Math.max(valueRef.current - offsetX, min), max)
-      onChange?.(newValue)
+        ((event.clientX - touchStartXRef.current) / DOT_INTERVAL) *
+        propsRef.current.step
+      const newValue = Math.min(
+        Math.max(valueRef.current - offsetX, propsRef.current.min),
+        propsRef.current.max
+      )
+      propsRef.current.onChange?.(newValue)
       valueRef.current = newValue
-    },
-    [max, min, step, onChange]
-  )
+      document.removeEventListener('pointermove', handleMove)
+      document.removeEventListener('pointerup', handleUp)
+      document.removeEventListener('pointercancel', handleUp)
+    }
+    document.addEventListener('pointermove', handleMove)
+    document.addEventListener('pointerup', handleUp)
+    document.addEventListener('pointercancel', handleUp)
+  }, [])
   const pc = usePC()
   const offsetX =
     0 -
@@ -138,9 +160,6 @@ export function RangePicker({
           touchAction: 'none',
         }}
         onPointerDown={handlePonterDown}
-        onPointerMove={handlePointerMove}
-        onPointerUp={handlePonterUp}
-        onPointerCancel={handlePonterUp}
       >
         <path d={rangePaths} fill="currentColor"></path>
       </svg>
