@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, minimum-scale=1,maximum-scale=1, user-scalable=no"
+    />
+    <meta
+      name="description"
+      content="Create professional ID photos for free with our open-source application. Run locally in your browser, ensuring privacy without any risk of data leaks."
+    />
+    <meta name="robots" content="index,follow" />
+    <meta name="googlebot" content="index,follow" />
+    <title>IDIFY - Free and Open Source ID Photo Maker.</title>
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=%VITE_GID%"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || []
+      function gtag() {
+        dataLayer.push(arguments)
+      }
+      gtag('js', new Date())
+
+      gtag('config', '%VITE_GID%')
+    </script>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

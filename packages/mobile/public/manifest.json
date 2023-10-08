@@ -1,0 +1,8 @@
+{
+  "short_name": "Idify",
+  "name": "Idify",
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#ffffff",
+  "background_color": "#ffffff"
+}

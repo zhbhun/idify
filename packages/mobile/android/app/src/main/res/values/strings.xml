@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">idify</string>
+    <string name="title_activity_main">idify</string>
+    <string name="package_name">app.netfly.idify</string>
+    <string name="custom_url_scheme">app.netfly.idify</string>
+</resources>
