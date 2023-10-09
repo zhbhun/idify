@@ -1,6 +1,6 @@
 {
   "name": "@idify/mobile",
-  "version": "0.0.1",
+  "version": "0.0.1-20231009",
   "description": "Idify",
   "type": "module",
   "scripts": {
