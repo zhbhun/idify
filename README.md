@@ -12,6 +12,11 @@ However, it utilizes Google Analytics to collect the following:
 - If Idify is a Progressive Web App (PWA), it collects information about the type of Idify installation.
 - If Idify is a Progressive Web App (PWA), it records the installation time and date.
 
+## Usage
+
+- [Website](https://idify.netlify.app/)
+- [Android](https://github.com/zhbhun/idify/releases)
+
 # Developing
 
 To contribute to Idify's development:
