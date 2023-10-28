@@ -151,7 +151,7 @@ export function SpecPicker({ value, onClose, onPick }: SpecPickerProps) {
                   )
                 })}
               </Tabs>
-              <Box className="h-[500px]">
+              <Box className="h-[400px]">
                 {ID_PHOTO_GOUPS.map((item) => {
                   return (
                     <SpecListPane
