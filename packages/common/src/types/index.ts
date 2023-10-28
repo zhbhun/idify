@@ -4,6 +4,7 @@ export type IDPhotoType =
   | 'visa'
   | 'driving'
   | 'generic'
+  | 'custom'
   | 'others'
 
 export interface IDPhotoSpec {
@@ -11,7 +12,7 @@ export interface IDPhotoSpec {
   type: IDPhotoType
   title: string
   country: string
-  languages: string[]
+  languages?: string[]
   definition?: {
     headHeight: number
     headTop: number
@@ -28,7 +29,7 @@ export interface IDPhotoSpec {
   }
   color: string
   comment?: string
-  links: string[]
+  links?: string[]
 }
 
 export interface IDPhotoGroup {

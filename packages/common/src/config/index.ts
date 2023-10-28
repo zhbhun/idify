@@ -124,7 +124,7 @@ export const BACKGROUND_COLORS = [
 export const ID_PHOTO_SPECS = SPEC as IDPhotoSpec[]
 
 export const ID_PHOTO_LOCALE_SPECS = ID_PHOTO_SPECS.filter((spec) => {
-  return spec.languages.includes(navigator.language)
+  return spec.languages?.includes(navigator.language)
 })
 
 export const ID_PHOTO_VISA_SPECS = ID_PHOTO_SPECS.filter(

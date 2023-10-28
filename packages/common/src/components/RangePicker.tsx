@@ -182,6 +182,7 @@ export function RangePicker({
         viewBox={`0 0 ${rangeWidth} 56`}
         focusable="false"
         style={{
+          cursor: 'pointer',
           transform: `translate(${offsetX}px, 0)`,
           touchAction: 'none',
         }}
@@ -194,6 +195,7 @@ export function RangePicker({
         sx={{
           background: 'radial-gradient(#121212, rgba(0, 0, 0, 0))',
           pointerEvents: 'none',
+          userSelect: 'none',
         }}
       >
         {`${format ? format(value) : value}${unit}`}
