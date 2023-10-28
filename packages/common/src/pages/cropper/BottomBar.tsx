@@ -9,16 +9,15 @@ import Paper from '@mui/material/Paper'
 import Stack from '@mui/material/Stack'
 import { RangePicker } from '../../components'
 import { CROPPER_ZOOM_MAX, CROPPER_ZOOM_MIN } from '../../config'
-import { useCropStore } from '../../stores'
+import { useCropStore, useSelectedSpec, useSpecStore } from '../../stores'
 import SpecPicker from './SpecPicker'
 
 type ActiveType = '' | 'spec' | 'zoom' | 'rotate' | 'flip'
 
 export function BottomBar() {
   const [active, setActive] = useState<ActiveType>('')
+  const [spec, setSpec] = useSelectedSpec()
   const {
-    spec,
-    setSpec,
     rotation,
     setRotation,
     zoom,

@@ -6,7 +6,13 @@ import Box from '@mui/material/Box'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
-import { useAppStore, useCropStore, useRetouchStore } from '../../stores'
+import {
+  getSelectedSpec,
+  useAppStore,
+  useCropStore,
+  useRetouchStore,
+  useSpecStore,
+} from '../../stores'
 import { createIDPhoto } from '../../uitls'
 import {
   CloseButton,
@@ -44,7 +50,7 @@ export default function ImageRetouch(props: ImageRetouchProps) {
       window.gtag?.('event', 'click', {
         object: 'save',
       })
-      const { spec } = useCropStore.getState()
+      const spec = getSelectedSpec()
       const { image, background, adjustment } = useRetouchStore.getState()
       const idPhoto = await createIDPhoto({
         image,

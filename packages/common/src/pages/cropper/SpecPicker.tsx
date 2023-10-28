@@ -5,20 +5,21 @@ import Face3Icon from '@mui/icons-material/Face3'
 import Face4Icon from '@mui/icons-material/Face4'
 import Face5Icon from '@mui/icons-material/Face5'
 import Face6Icon from '@mui/icons-material/Face6'
-import SaveIcon from '@mui/icons-material/Save'
 import Backdrop from '@mui/material/Backdrop'
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
 import ClickAwayListener from '@mui/material/ClickAwayListener'
-import IconButton from '@mui/material/IconButton'
-import OutlinedInput from '@mui/material/OutlinedInput'
 import List from '@mui/material/List'
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import Slide from '@mui/material/Slide'
-import { ID_PHOTO_SPECS } from '../../config'
+import Tabs from '@mui/material/Tabs'
+import Tab from '@mui/material/Tab'
+import { useSelectedSpec, useSpecStore } from '@/stores'
+import { ID_PHOTO_GOUPS, ID_PHOTO_SPECS } from '../../config'
 import { IDPhotoSpec } from '../../types'
+import classNames from 'classnames'
 
 const SPEC_ICONS = [
   <FaceIcon />,
@@ -29,6 +30,81 @@ const SPEC_ICONS = [
   <Face6Icon />,
 ]
 
+export interface SpecListPaneProps {
+  show: boolean
+  active: string
+  specs: IDPhotoSpec[]
+  onActiveChange(spec: IDPhotoSpec): void
+}
+
+export function SpecListPane({
+  show,
+  active,
+  specs,
+  onActiveChange,
+}: SpecListPaneProps) {
+  const [inited, setInited] = useState(show)
+  useEffect(() => {
+    if (show) {
+      setInited(true)
+    }
+  }, [show])
+  if (!inited) {
+    return null
+  }
+  return (
+    <List
+      className={classNames('h-full overflow-y-auto', {
+        hidden: !show,
+      })}
+      sx={{
+        '&::-webkit-scrollbar': {
+          width: '6px',
+          height: '6px',
+          backgroundColor: 'transparent',
+        },
+        '&::-webkit-scrollbar-button': {
+          display: 'none',
+        },
+        '&::-webkit-scrollbar-track': {
+          backgroundColor: 'transparent',
+        },
+        '&::-webkit-scrollbar-thumb': {
+          backgroundColor: '#666',
+          borderRadius: '8px',
+          border: '2px solid #666',
+        },
+        '&::-webkit-scrollbar-thumb:hover': {
+          backgroundColor: '#888',
+          borderColor: '#888',
+        },
+        '::-webkit-scrollbar-corner': {
+          display: 'none',
+        },
+      }}
+    >
+      {specs.map((spec, index) => {
+        const { name, title, resolution, dimension } = spec
+        return (
+          <ListItemButton
+            key={name}
+            selected={name === active}
+            onClick={() => {
+              onActiveChange(spec)
+            }}
+          >
+            <ListItemIcon>{SPEC_ICONS[index % SPEC_ICONS.length]}</ListItemIcon>
+            <ListItemText
+              primary={title}
+              secondary={`${resolution.width}*${resolution.height}px | ${dimension.width}*${dimension.height}${dimension.unit}`}
+            />
+          </ListItemButton>
+        )
+      })}
+    </List>
+  )
+}
+
 export interface SpecPickerProps {
   value: IDPhotoSpec
   onClose?(): void
@@ -36,16 +112,11 @@ export interface SpecPickerProps {
 }
 
 export function SpecPicker({ value, onClose, onPick }: SpecPickerProps) {
-  const [width, setWidth] = useState(value.resolution.width)
-  const [widthInput, setWidthInput] = useState(String(width))
-  const [height, setHeight] = useState(value.resolution.height)
-  const [heightInput, setHeightInput] = useState(String(height))
-  useEffect(() => {
-    setWidthInput(String(width))
-  }, [width])
-  useEffect(() => {
-    setHeightInput(String(height))
-  }, [height])
+  const [group, setGroup] = useSpecStore((state) => [
+    state.group,
+    state.setGroup,
+  ])
+  const [spec, setSepc] = useSelectedSpec()
   return (
     <ClickAwayListener
       onClickAway={() => {
@@ -66,127 +137,33 @@ export function SpecPicker({ value, onClose, onPick }: SpecPickerProps) {
                 event.stopPropagation()
               }}
             >
-              <Box className="flex justify-between items-center py-[10px] px-[15px]">
-                <OutlinedInput
-                  required
-                  inputProps={{
-                    inputMode: 'numeric',
-                    pattern: '[0-9]*',
-                  }}
-                  startAdornment={<span>W&nbsp;</span>}
-                  size="small"
-                  type="number"
-                  value={widthInput}
-                  onChange={(e) => {
-                    setWidthInput(e.target.value)
-                  }}
-                  onBlur={(e) => {
-                    const newWidth = Number(e.target.value)
-                    if (newWidth > 1000) {
-                      setWidth(1000)
-                    } else if (newWidth < 100) {
-                      setWidth(100)
-                    } else {
-                      setWidth(newWidth)
-                    }
-                  }}
-                />
-                <OutlinedInput
-                  className="ml-[10px]"
-                  required
-                  inputProps={{
-                    inputMode: 'numeric',
-                    pattern: '[0-9]*',
-                  }}
-                  startAdornment={<span>H&nbsp;</span>}
-                  size="small"
-                  type="number"
-                  value={heightInput}
-                  onChange={(e) => {
-                    setHeightInput(e.target.value)
-                  }}
-                  onBlur={(e) => {
-                    const newHeight = Number(e.target.value)
-                    if (newHeight > 1000) {
-                      setHeight(1000)
-                    } else if (newHeight < 100) {
-                      setHeight(100)
-                    } else {
-                      setHeight(newHeight)
-                    }
-                  }}
-                />
-                <IconButton
-                  className="ml-[5px]"
-                  onClick={() => {
-                    onPick?.({
-                      name: 'cusotm',
-                      title: 'Custom',
-                      aspectRatio: width / height,
-                      resolution: {
-                        width: width,
-                        height: height,
-                      },
-                      dimension: {
-                        width: Math.round((width / 300) * 25.4),
-                        height: Math.round((height / 300) * 25.4),
-                      },
-                      color: '#ffffff',
-                    })
-                  }}
-                >
-                  <SaveIcon />
-                </IconButton>
-              </Box>
-              <List
-                className="max-h-[400px] overflow-y-auto"
-                sx={{
-                  '&::-webkit-scrollbar': {
-                    width: '6px',
-                    height: '6px',
-                    backgroundColor: 'transparent',
-                  },
-                  '&::-webkit-scrollbar-button': {
-                    display: 'none',
-                  },
-                  '&::-webkit-scrollbar-track': {
-                    backgroundColor: 'transparent',
-                  },
-                  '&::-webkit-scrollbar-thumb': {
-                    backgroundColor: '#666',
-                    borderRadius: '8px',
-                    border: '2px solid #666',
-                  },
-                  '&::-webkit-scrollbar-thumb:hover': {
-                    backgroundColor: '#888',
-                    borderColor: '#888',
-                  },
-                  '::-webkit-scrollbar-corner': {
-                    display: 'none',
-                  },
+              <Tabs
+                value={group}
+                variant="scrollable"
+                scrollButtons={false}
+                onChange={(e, newValue) => {
+                  setGroup(newValue)
                 }}
               >
-                {ID_PHOTO_SPECS.map((spec, index) => {
-                  const { name, title, resolution, dimension } = spec
+                {ID_PHOTO_GOUPS.map((item) => {
                   return (
-                    <ListItemButton
-                      key={name}
-                      selected={value === spec}
-                      onClick={() => {
-                        onPick?.(spec)
-                      }}
-                    >
-                      <ListItemIcon>
-                        {SPEC_ICONS[index % SPEC_ICONS.length]}
-                      </ListItemIcon>
-                      <ListItemText
-                        primary={title}
-                        secondary={`${resolution.width}*${resolution.height}px | ${dimension.width}*${dimension.height}mm`}
-                      />
-                    </ListItemButton>
+                    <Tab key={item.name} label={item.title} value={item.name} />
                   )
                 })}
-              </List>
+              </Tabs>
+              <Box className="h-[500px]">
+                {ID_PHOTO_GOUPS.map((item) => {
+                  return (
+                    <SpecListPane
+                      key={item.name}
+                      show={item.name === group}
+                      active={spec.name}
+                      specs={item.specs}
+                      onActiveChange={setSepc}
+                    />
+                  )
+                })}
+              </Box>
             </Card>
           </Box>
         </Slide>

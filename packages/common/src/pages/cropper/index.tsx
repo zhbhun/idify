@@ -6,7 +6,12 @@ import Box from '@mui/material/Box'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
-import { useAppStore, useCropStore, useSegementStore } from '../../stores'
+import {
+  getSelectedSpec,
+  useAppStore,
+  useCropStore,
+  useSegementStore,
+} from '../../stores'
 import { cropIDPhoto } from '../../uitls'
 import {
   CloseButton,
@@ -41,7 +46,8 @@ export default function Cropper() {
       window.gtag?.('event', 'click', {
         object: 'crop',
       })
-      const { image, spec } = useCropStore.getState()
+      const spec = getSelectedSpec()
+      const { image } = useCropStore.getState()
       const { rotation, area: croppedArea } = useCropStore.getState()
       const idPhoto = await cropIDPhoto({
         image: segmentedImage || image,

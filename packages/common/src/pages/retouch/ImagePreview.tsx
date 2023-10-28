@@ -2,13 +2,13 @@ import { useMemo } from 'react'
 import { useMeasure } from 'react-use'
 import Box from '@mui/material/Box'
 import { useAdaptedSize, useNotEmpty } from '../../hooks'
-import { useCropStore, useRetouchStore } from '../../stores'
+import { useRetouchStore, useSelectedSpec } from '../../stores'
 import BackgroundPreview from './BackgroundPreview'
 import CanvasImage from './CanvasImage'
 
 export function ImagePreview() {
   const [measureRef, measureRect] = useMeasure<HTMLDivElement>()
-  const spec = useCropStore((state) => state.spec)
+  const [spec] = useSelectedSpec()
   const image = useNotEmpty(useRetouchStore((state) => state.image))
   const limit = useMemo(
     () => ({

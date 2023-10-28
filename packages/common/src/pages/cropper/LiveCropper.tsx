@@ -4,11 +4,17 @@ import EaseCropper, { Area } from 'react-easy-crop'
 import Box from '@mui/material/Box'
 import { CROPPER_ZOOM_MAX, CROPPER_ZOOM_MIN } from '../../config'
 import { useAdaptedSize } from '../..//hooks'
-import { useCropStore, useSegementStore } from '../../stores'
+import {
+  useCropStore,
+  useSegementStore,
+  useSelectedSpec,
+  useSpecStore,
+} from '../../stores'
 
 export function LiveCropper() {
   const [measureRef, measureRect] = useMeasure<HTMLDivElement>()
-  const [image, spec] = useCropStore((state) => [state.image, state.spec])
+  const [spec] = useSelectedSpec()
+  const image = useCropStore((state) => state.image)
   const segmentedImage = useSegementStore((state) => state.result)
   const limit = useMemo(
     () => ({
