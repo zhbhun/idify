@@ -11,14 +11,6 @@ export default defineConfig({
       includeAssets: ['/favicon.ico'],
     }),
   ],
-  resolve: {
-    alias: [
-      {
-        find: '@',
-        replacement: '/src',
-      },
-    ],
-  },
   server: {
     host: '0.0.0.0',
   },

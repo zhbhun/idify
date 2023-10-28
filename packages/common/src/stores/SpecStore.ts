@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-import { ID_PHOTO_GOUPS, ID_PHOTO_SPECS } from '@/config'
-import { IDPhotoGroup, IDPhotoSpec } from '@/types'
+import { ID_PHOTO_GOUPS, ID_PHOTO_SPECS } from '../config'
+import { IDPhotoGroup, IDPhotoSpec } from '../types'
 
 export interface SpecState {
   group: string
