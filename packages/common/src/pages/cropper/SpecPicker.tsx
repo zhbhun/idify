@@ -99,6 +99,7 @@ export function SpecListPane({
           display: 'none',
         },
       }}
+      dense
       subheader={subheader}
     >
       {specs.map((spec, index) => {
@@ -439,6 +440,9 @@ export function SpecPicker({ value, onClose }: SpecPickerProps) {
             }}
           >
             <Tabs
+              sx={{
+                paddingTop: '8px',
+              }}
               value={group}
               variant="scrollable"
               scrollButtons={false}
@@ -448,7 +452,14 @@ export function SpecPicker({ value, onClose }: SpecPickerProps) {
             >
               {ID_PHOTO_GOUPS.map((item) => {
                 return (
-                  <Tab key={item.name} label={item.title} value={item.name} />
+                  <Tab
+                    key={item.name}
+                    sx={{
+                      minWidth: 'auto',
+                    }}
+                    label={item.title}
+                    value={item.name}
+                  />
                 )
               })}
               <Tab key="custom" label="Custom" value="custom" />
