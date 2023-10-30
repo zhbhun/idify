@@ -37,10 +37,6 @@ export function BottomBar() {
           onClose={() => {
             setActive('')
           }}
-          onPick={(spec) => {
-            setActive('')
-            setSpec(spec)
-          }}
         />
       ) : null}
       {active === 'zoom' ? (

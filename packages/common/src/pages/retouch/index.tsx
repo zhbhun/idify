@@ -83,7 +83,7 @@ export default function ImageRetouch(props: ImageRetouchProps) {
         variant: 'error',
       })
     }
-  }, [enqueueSnackbar])
+  }, [config, enqueueSnackbar])
   return (
     <ThemeProvider theme={theme}>
       <Box className="absolute inset-0">
