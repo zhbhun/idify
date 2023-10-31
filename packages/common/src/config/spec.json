@@ -3756,8 +3756,8 @@
       "zh-CN"
     ],
     "definition": {
-      "headHeight": 890,
-      "headTop": 63
+      "headHeight": 75,
+      "headTop": 5
     },
     "resolution": {
       "dpi": 300,
@@ -3786,8 +3786,8 @@
       "zh-CN"
     ],
     "definition": {
-      "headHeight": 890,
-      "headTop": 63
+      "headHeight": 75,
+      "headTop": 5
     },
     "resolution": {
       "dpi": 300,
@@ -3815,8 +3815,8 @@
       "zh-CN"
     ],
     "definition": {
-      "headHeight": 528,
-      "headTop": 655
+      "headHeight": 45,
+      "headTop": 56
     },
     "resolution": {
       "dpi": 300,
@@ -3901,8 +3901,8 @@
       "zh-CN"
     ],
     "definition": {
-      "headHeight": 235,
-      "headTop": 655
+      "headHeight": 20,
+      "headTop": 56
     },
     "resolution": {
       "dpi": 300,
@@ -6333,8 +6333,8 @@
       "fi"
     ],
     "definition": {
-      "headHeight": 885,
-      "headTop": 102
+      "headHeight": 75,
+      "headTop": 9
     },
     "resolution": {
       "dpi": 300,
@@ -6361,8 +6361,8 @@
       "fi"
     ],
     "definition": {
-      "headHeight": 885,
-      "headTop": 102
+      "headHeight": 75,
+      "headTop": 9
     },
     "resolution": {
       "dpi": 300,
@@ -16995,8 +16995,8 @@
       "ru"
     ],
     "definition": {
-      "headHeight": 783,
-      "headTop": 43
+      "headHeight": 67,
+      "headTop": 4
     },
     "resolution": {
       "dpi": 300,
@@ -17428,8 +17428,8 @@
       "ru"
     ],
     "definition": {
-      "headHeight": 916,
-      "headTop": 605
+      "headHeight": 78,
+      "headTop": 51
     },
     "resolution": {
       "dpi": 300,
@@ -23541,8 +23541,8 @@
       "en"
     ],
     "definition": {
-      "headHeight": 559,
-      "headTop": 581
+      "headHeight": 47,
+      "headTop": 49
     },
     "resolution": {
       "dpi": 300,

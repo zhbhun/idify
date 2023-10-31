@@ -16,7 +16,7 @@ type ActiveType = '' | 'spec' | 'zoom' | 'rotate' | 'flip'
 
 export function BottomBar() {
   const [active, setActive] = useState<ActiveType>('')
-  const [spec, setSpec] = useSelectedSpec()
+  const [spec] = useSelectedSpec()
   const {
     rotation,
     setRotation,
