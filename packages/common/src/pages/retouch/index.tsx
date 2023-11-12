@@ -56,7 +56,7 @@ export default function ImageRetouch(props: ImageRetouchProps) {
         image,
         background,
         adjustment,
-        resolution: spec.resolution,
+        resolution: spec.dimension,
       })
       if (!idPhoto) {
         return

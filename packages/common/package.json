@@ -20,7 +20,7 @@
     "@types/chroma-js": "^2.4.1",
     "@types/lodash-es": "^4.17.9",
     "@types/react-color": "^3.0.6",
-    "@zhbhun/background-removal": "^1.0.6",
+    "@zhbhun/background-removal": "^1.0.8",
     "chroma-js": "^2.4.2",
     "classnames": "^2.3.2",
     "eruda": "^3.0.1",

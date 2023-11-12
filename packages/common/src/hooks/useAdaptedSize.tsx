@@ -8,22 +8,22 @@ function getCropSize(
     height: window.innerHeight - 250,
   }
 ) {
-  const { resolution } = spec
+  const { dimension } = spec
   const maxWidth = limit.width
   const maxHeight = limit.height
-  if (resolution.width < maxWidth && resolution.height < maxHeight) {
-    return resolution
+  if (dimension.width < maxWidth && dimension.height < maxHeight) {
+    return dimension
   }
-  const widthScale = maxWidth / resolution.width
-  const heightScale = maxHeight / resolution.height
+  const widthScale = maxWidth / dimension.width
+  const heightScale = maxHeight / dimension.height
   if (widthScale < heightScale) {
     return {
       width: maxWidth,
-      height: Math.round(resolution.height * widthScale),
+      height: Math.round(dimension.height * widthScale),
     }
   }
   return {
-    width: Math.round(resolution.width * heightScale),
+    width: Math.round(dimension.width * heightScale),
     height: maxHeight,
   }
 }

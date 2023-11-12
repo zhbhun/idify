@@ -9,9 +9,9 @@ import { useAppStore, useSegementStore } from '../stores'
 import ConfigContext from './ConfigContext'
 
 const DEMOS = [
-  'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=1080&q=80',
-  'https://images.unsplash.com/photo-1522556189639-b150ed9c4330?auto=format&fit=crop&w=1080&q=80',
-  'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=1080&q=80',
+  'https://images.unsplash.com/photo-1627161683077-e34782c24d81?auto=format&fit=crop&w=1080&q=80',
+  'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=1080&q=80',
+  'https://images.unsplash.com/photo-1600878459138-e1123b37cb30?auto=format&fit=crop&w=1080&q=80',
 ]
 
 export function ImageAdd() {

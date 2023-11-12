@@ -106,7 +106,7 @@ export function BottomBar() {
         >
           <Stack direction="column" alignItems="center" spacing={0.5}>
             <AspectRatioIcon fontSize="small" />
-            <span>{`${spec.resolution.width}*${spec.resolution.height}`}</span>
+            <span>Size</span>
           </Stack>
         </Button>
         <Button

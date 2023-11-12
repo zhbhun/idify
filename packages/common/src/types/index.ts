@@ -1,35 +1,36 @@
 export type IDPhotoType =
-  | 'passport'
   | 'identification'
+  | 'passport'
   | 'visa'
   | 'driving'
+  | 'student'
   | 'generic'
-  | 'custom'
   | 'others'
+  | 'custom'
 
 export interface IDPhotoSpec {
   name: string
   type: IDPhotoType
   title: string
-  country: string
-  languages?: string[]
-  definition?: {
-    headHeight: number
-    headTop: number
-  }
-  resolution: {
-    dpi: number
-    width: number
-    height: number
-  }
+  region: string
+  zone: string
+  flag: string
   dimension: {
+    dpi: number,
     width: number
     height: number
-    unit: 'inch' | 'mm'
+    unit: 'mm' | 'cm' | 'inch',
+  },
+  rules?: {
+    size?: number
+    minHeadHeight?: number
+    minHeadOffset?: number
+    maxHeadHeight?: number
+    minEyeHeight?: number
+    maxEyeHeight?: number
   }
-  color: string
+  background: string;
   comment?: string
-  links?: string[]
 }
 
 export interface IDPhotoGroup {

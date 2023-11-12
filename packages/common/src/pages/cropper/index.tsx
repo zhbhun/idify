@@ -53,7 +53,7 @@ export default function Cropper() {
         image: segmentedImage || image,
         area: croppedArea,
         rotation,
-        resolution: spec.resolution,
+        resolution: spec.dimension,
       })
       window.gtag?.('event', 'click', {
         object: 'crop_success',

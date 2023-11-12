@@ -1,9 +1,9 @@
 import { IDPhotoGroup, IDPhotoSpec } from '../types'
 import SPEC from './spec.json'
 
-export const CROPPER_ZOOM_MIN = 0.5
+export const CROPPER_ZOOM_MIN = 0.1
 
-export const CROPPER_ZOOM_MAX = 2
+export const CROPPER_ZOOM_MAX = 10
 
 export const BOTTOM_WIDTH_PC = 400
 
@@ -39,11 +39,11 @@ export const BACKGROUND_COLORS = [
   },
   {
     name: 'Light Gray',
-    value: '#ececec',
+    value: '#d3d3d3',
   },
   {
-    name: 'Light Gray',
-    value: '#d3d3d3',
+    name: 'Gray',
+    value: '#808080',
   },
   // blue
   {
@@ -51,8 +51,8 @@ export const BACKGROUND_COLORS = [
     value: '#0000ff',
   },
   {
-    name: 'Blue',
-    value: '#2254f4',
+    name: 'Pale Blue',
+    value: '#add8e6',
   },
   {
     name: 'Azure',
@@ -123,10 +123,6 @@ export const BACKGROUND_COLORS = [
 
 export const ID_PHOTO_SPECS = SPEC as IDPhotoSpec[]
 
-export const ID_PHOTO_LOCALE_SPECS = ID_PHOTO_SPECS.filter((spec) => {
-  return spec.languages?.includes(navigator.language)
-})
-
 export const ID_PHOTO_VISA_SPECS = ID_PHOTO_SPECS.filter(
   (spec) => spec.type === 'visa'
 )
@@ -147,17 +143,11 @@ export const ID_PHOTO_DRIVING_SPECS = ID_PHOTO_SPECS.filter(
   (spec) => spec.type === 'driving'
 )
 
-export const ID_PHOTO_GOUPS = (
-  ID_PHOTO_LOCALE_SPECS.length > 0
-    ? [
-        {
-          name: 'locale',
-          title: ID_PHOTO_LOCALE_SPECS[0].country,
-          specs: ID_PHOTO_LOCALE_SPECS,
-        },
-      ]
-    : []
-).concat([
+export const ID_PHOTO_STUDENT_SPECS = ID_PHOTO_SPECS.filter(
+  (spec) => spec.type === 'student'
+)
+
+export const ID_PHOTO_GOUPS = [
   {
     name: 'generic',
     title: 'Generic',
@@ -171,16 +161,11 @@ export const ID_PHOTO_GOUPS = (
   {
     name: 'identification',
     title: 'Identification',
-    specs: ID_PHOTO_VISA_SPECS,
+    specs: ID_PHOTO_IDENTIFICATION_SPECS,
   },
   {
     name: 'passport',
     title: 'Passport',
     specs: ID_PHOTO_PASSPORT_SPECS,
   },
-  {
-    name: 'driving',
-    title: 'Driving',
-    specs: ID_PHOTO_DRIVING_SPECS,
-  },
-]) as IDPhotoGroup[]
+] as IDPhotoGroup[]

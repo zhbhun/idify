@@ -42,8 +42,8 @@ importers:
         specifier: ^3.0.6
         version: 3.0.7
       '@zhbhun/background-removal':
-        specifier: ^1.0.6
-        version: 1.0.6
+        specifier: ^1.0.8
+        version: 1.0.8
       chroma-js:
         specifier: ^2.4.2
         version: 2.4.2
@@ -190,8 +190,8 @@ importers:
         specifier: ^18.0.10
         version: 18.2.8
       '@zhbhun/background-removal':
-        specifier: ^1.0.6
-        version: 1.0.6
+        specifier: ^1.0.8
+        version: 1.0.8
       eruda:
         specifier: ^3.0.1
         version: 3.0.1
@@ -263,8 +263,8 @@ importers:
         specifier: ^18.2.7
         version: 18.2.8
       '@zhbhun/background-removal':
-        specifier: ^1.0.6
-        version: 1.0.6
+        specifier: ^1.0.8
+        version: 1.0.8
       eruda:
         specifier: ^3.0.1
         version: 3.0.1
@@ -2796,8 +2796,8 @@ packages:
     resolution: {integrity: sha512-N8tkAACJx2ww8vFMneJmaAgmjAG1tnVBZJRLRcx061tmsLRZHSEZSLuGWnwPtunsSLvSqXQ2wfp7Mgqg1I+2dQ==}
     dev: false
 
-  /@zhbhun/background-removal@1.0.6:
-    resolution: {integrity: sha512-UUtYzdChyoQD4KqV/QKroMlvDark24BFYsRWhRAuAHVlHT9ZSW4FY1Rw8uCe/NHTB3G7SCGwBg3csmg4y+TeQg==}
+  /@zhbhun/background-removal@1.0.8:
+    resolution: {integrity: sha512-u2oVKgrCKtwA72ZNQ+SKh8nKmtOuXF0a4IGmdcCtcU3WkRWgjhCmomsmxmZ5JTvKH9vXMIC3uArzFeyDxoXMPA==}
     dev: false
 
   /abab@2.0.6:

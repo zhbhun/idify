@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { useCropStore, useSegementStore } from '.'
+import { useCropStore, useSegementStore, useSpecStore } from '.'
 import { useRetouchStore } from './RetouchStore'
 
 export interface AppState {
@@ -12,6 +12,7 @@ export interface AppState {
 }
 
 export interface AppActions {
+  initiate(): void;
   crop(image: string): void
   retouch(image: string): void
   cancel(): void
@@ -26,6 +27,9 @@ export interface AppStore extends AppState, AppActions {}
 
 export const useAppStore = create<AppStore>((set, get) => ({
   ...defaultAppState,
+  initiate() {
+    useSpecStore.getState().initiate();
+  },
   crop(image: string) {
     useCropStore.getState().setImage(image)
     set({ step: 1 })

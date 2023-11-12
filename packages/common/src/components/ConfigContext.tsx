@@ -13,7 +13,7 @@ export interface ConfigValue {
 export const defaultConfig: ConfigValue = {
   showGithubLink: true,
   segment: {
-    publicPath: 'https://unpkg.com/@zhbhun/background-removal@1.0.6/dist/',
+    publicPath: 'https://unpkg.com/@zhbhun/background-removal@1.0.8/dist/',
   },
 }
 

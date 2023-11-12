@@ -30,8 +30,7 @@ import Slide from '@mui/material/Slide'
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 import TextField from '@mui/material/TextField'
-import { useSelectedSpec, useSpecStore } from '../../stores'
-import { ID_PHOTO_GOUPS, ID_PHOTO_SPECS } from '../../config'
+import { useSelectedSpec, useSpecGroups, useSpecStore } from '../../stores'
 import { IDPhotoSpec } from '../../types'
 
 const SPEC_ICONS = [
@@ -103,7 +102,12 @@ export function SpecListPane({
       subheader={subheader}
     >
       {specs.map((spec, index) => {
-        const { name, title, resolution, dimension } = spec
+        const { name, title, dimension } = spec
+        const ratio = {
+          mm: dimension.dpi / 25.4,
+          cm: dimension.dpi / 2.54,
+          inch: dimension.dpi,
+        }[dimension.unit]
         return (
           <ListItemButton
             key={name}
@@ -115,7 +119,11 @@ export function SpecListPane({
             <ListItemIcon>{SPEC_ICONS[index % SPEC_ICONS.length]}</ListItemIcon>
             <ListItemText
               primary={title}
-              secondary={`${resolution.width}*${resolution.height}px | ${dimension.width}*${dimension.height}${dimension.unit}`}
+              secondary={`${dimension.width}*${dimension.height}px | ${Number(
+                (dimension.width / ratio).toFixed(1)
+              )}*${Number((dimension.height / ratio).toFixed(1))}${
+                dimension.unit
+              }`}
             />
             {spec.type === 'custom' ? (
               <ListItemSecondaryAction
@@ -191,9 +199,9 @@ export function CustomSpecListPane(props: CustomSpecListPaneProps) {
           setEditingCustom(spec)
           setForm({
             name: spec.title,
-            width: spec.resolution.width,
-            height: spec.resolution.height,
-            dpi: spec.resolution.dpi,
+            width: spec.dimension.width,
+            height: spec.dimension.height,
+            dpi: spec.dimension.dpi,
           })
         }}
       />
@@ -335,14 +343,10 @@ export function CustomSpecListPane(props: CustomSpecListPaneProps) {
                       updateCustom({
                         ...editingCustom,
                         title: form.name,
-                        resolution: {
+                        dimension: {
                           dpi: form.dpi,
                           width: form.width,
                           height: form.height,
-                        },
-                        dimension: {
-                          width: Math.round((form.width / form.dpi) * 25.4),
-                          height: Math.round((form.height / form.dpi) * 25.4),
                           unit: 'mm',
                         },
                       })
@@ -351,18 +355,17 @@ export function CustomSpecListPane(props: CustomSpecListPaneProps) {
                         name: useSpecStore.getState().getNextName(),
                         type: 'custom',
                         title: form.name,
-                        country: 'Any Country (Generic)',
-                        resolution: {
+                        region: 'Global',
+                        zone: 'WW',
+                        flag: '',
+                        dimension: {
                           dpi: form.dpi,
                           width: form.width,
                           height: form.height,
+                          unit: useSpecStore.getState().groups[0].specs[0]
+                            .dimension.unit,
                         },
-                        dimension: {
-                          width: Math.round((form.width / form.dpi) * 25.4),
-                          height: Math.round((form.height / form.dpi) * 25.4),
-                          unit: 'mm',
-                        },
-                        color: '#fff',
+                        background: '#ffffff',
                       })
                     }
                     setCustomOpen(false)
@@ -407,7 +410,8 @@ export interface SpecPickerProps {
 }
 
 export function SpecPicker({ value, onClose }: SpecPickerProps) {
-  const [group, setGroup] = useState(ID_PHOTO_GOUPS[0].name)
+  const groups = useSpecGroups()
+  const [group, setGroup] = useState(groups[0].name)
   const [spec, setSepc] = useSelectedSpec()
   useEffect(() => {
     const { spec, customs } = useSpecStore.getState()
@@ -416,14 +420,14 @@ export function SpecPicker({ value, onClose }: SpecPickerProps) {
       groupName = 'custom'
     } else {
       groupName =
-        ID_PHOTO_GOUPS.find((group) => {
+        groups.find((group) => {
           return group.specs.some((item) => item.name === spec)
         })?.name || ''
     }
     if (groupName) {
       setGroup(groupName)
     }
-  }, [])
+  }, [groups])
   return (
     <Backdrop
       sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
@@ -450,7 +454,7 @@ export function SpecPicker({ value, onClose }: SpecPickerProps) {
                 setGroup(newValue)
               }}
             >
-              {ID_PHOTO_GOUPS.map((item) => {
+              {groups.map((item) => {
                 return (
                   <Tab
                     key={item.name}
@@ -465,7 +469,7 @@ export function SpecPicker({ value, onClose }: SpecPickerProps) {
               <Tab key="custom" label="Custom" value="custom" />
             </Tabs>
             <Box className="h-[400px]">
-              {ID_PHOTO_GOUPS.map((item) => {
+              {groups.map((item) => {
                 return (
                   <SpecListPane
                     key={item.name}

@@ -17,7 +17,7 @@
     "@mui/material": "^5.14.7",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
-    "@zhbhun/background-removal": "^1.0.6",
+    "@zhbhun/background-removal": "^1.0.8",
     "eruda": "^3.0.1",
     "notistack": "^3.0.1",
     "react": "^18.2.0",
