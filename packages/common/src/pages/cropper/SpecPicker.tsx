@@ -214,189 +214,191 @@ export function CustomSpecListPane(props: CustomSpecListPaneProps) {
           }}
         >
           <Slide direction="up" in={customOpen}>
-            <Card
-              className="absolute left-0 bottom-0 w-full rounded-t-3xl sm:left-1/2 sm:mx-auto sm:w-[400px] sm:-translate-x-1/2"
-              variant="outlined"
-              onClick={(event) => {
-                event.stopPropagation()
-              }}
-            >
-              <CardHeader
-                sx={{
-                  paddingBottom: 0,
-                }}
-                subheader="Custom specification"
-                action={
-                  <IconButton
-                    onClick={() => {
-                      setCustomOpen(false)
-                    }}
-                  >
-                    <CloseOutlined />
-                  </IconButton>
-                }
-              />
-              <CardContent
-                sx={{
-                  paddingTop: 0,
+            <Box className="absolute z-10 bottom-0 left-0 w-full">
+              <Card
+                className="w-full rounded-t-3xl sm:mx-auto sm:w-[400px]"
+                variant="outlined"
+                onClick={(event) => {
+                  event.stopPropagation()
                 }}
               >
-                <TextField
-                  fullWidth
-                  label="Name"
-                  name="name"
-                  margin="normal"
-                  variant="standard"
-                  value={form.name}
-                  onChange={(event) => {
-                    setForm((prevForm) => ({
-                      ...prevForm,
-                      name: event.target.value,
-                    }))
-                  }}
-                />
-                <TextField
-                  fullWidth
-                  label="Width"
-                  name="width"
-                  margin="normal"
-                  type="number"
-                  variant="standard"
-                  value={form.width}
-                  onChange={(event) => {
-                    setForm((prevForm) => ({
-                      ...prevForm,
-                      width: event.target.value,
-                    }))
-                  }}
-                />
-                <TextField
-                  fullWidth
-                  label="Height"
-                  name="height"
-                  margin="normal"
-                  type="number"
-                  variant="standard"
-                  value={form.height}
-                  onChange={(event) => {
-                    setForm((prevForm) => ({
-                      ...prevForm,
-                      height: event.target.value,
-                    }))
-                  }}
-                />
-                <TextField
-                  fullWidth
-                  label="DPI"
-                  name="dpi"
-                  margin="normal"
-                  type="number"
-                  variant="standard"
-                  value={form.dpi}
-                  onChange={(event) => {
-                    setForm((prevForm) => ({
-                      ...prevForm,
-                      dpi: event.target.value,
-                    }))
-                  }}
-                />
-                <Button
+                <CardHeader
                   sx={{
-                    marginTop: '20px',
-                    borderRadius: '20px',
+                    paddingBottom: 0,
                   }}
-                  disableElevation
-                  fullWidth
-                  size="large"
-                  startIcon={<SaveOutlined />}
-                  variant="contained"
-                  onClick={() => {
-                    if (!form.name || !form.name.trim()) {
-                      enqueueSnackbar('Name can not be empty!')
-                      return
-                    }
-                    if (!form.width) {
-                      enqueueSnackbar('Width can not be empty!')
-                      return
-                    }
-                    if (form.width < 0) {
-                      enqueueSnackbar('Width must be larger than 0!')
-                      return
-                    }
-                    if (!form.height) {
-                      enqueueSnackbar('Height can not be empty!')
-                      return
-                    }
-                    if (form.height < 0) {
-                      enqueueSnackbar('Height must be larger than 0!')
-                      return
-                    }
-                    if (!form.dpi) {
-                      enqueueSnackbar('DPI can not be empty!')
-                      return
-                    }
-                    if (form.dpi < 0) {
-                      enqueueSnackbar('DPI must be larger than 0!')
-                      return
-                    }
-                    if (editingCustom) {
-                      updateCustom({
-                        ...editingCustom,
-                        title: form.name,
-                        dimension: {
-                          dpi: form.dpi,
-                          width: form.width,
-                          height: form.height,
-                          unit: 'mm',
-                        },
-                      })
-                    } else {
-                      addCustom({
-                        name: useSpecStore.getState().getNextName(),
-                        type: 'custom',
-                        title: form.name,
-                        region: 'Global',
-                        zone: 'WW',
-                        flag: '',
-                        dimension: {
-                          dpi: form.dpi,
-                          width: form.width,
-                          height: form.height,
-                          unit: useSpecStore.getState().groups[0].specs[0]
-                            .dimension.unit,
-                        },
-                        background: '#ffffff',
-                      })
-                    }
-                    setCustomOpen(false)
+                  subheader="Custom specification"
+                  action={
+                    <IconButton
+                      onClick={() => {
+                        setCustomOpen(false)
+                      }}
+                    >
+                      <CloseOutlined />
+                    </IconButton>
+                  }
+                />
+                <CardContent
+                  sx={{
+                    paddingTop: 0,
                   }}
                 >
-                  Save
-                </Button>
-                {editingCustom ? (
+                  <TextField
+                    fullWidth
+                    label="Name"
+                    name="name"
+                    margin="normal"
+                    variant="standard"
+                    value={form.name}
+                    onChange={(event) => {
+                      setForm((prevForm) => ({
+                        ...prevForm,
+                        name: event.target.value,
+                      }))
+                    }}
+                  />
+                  <TextField
+                    fullWidth
+                    label="Width"
+                    name="width"
+                    margin="normal"
+                    type="number"
+                    variant="standard"
+                    value={form.width}
+                    onChange={(event) => {
+                      setForm((prevForm) => ({
+                        ...prevForm,
+                        width: event.target.value,
+                      }))
+                    }}
+                  />
+                  <TextField
+                    fullWidth
+                    label="Height"
+                    name="height"
+                    margin="normal"
+                    type="number"
+                    variant="standard"
+                    value={form.height}
+                    onChange={(event) => {
+                      setForm((prevForm) => ({
+                        ...prevForm,
+                        height: event.target.value,
+                      }))
+                    }}
+                  />
+                  <TextField
+                    fullWidth
+                    label="DPI"
+                    name="dpi"
+                    margin="normal"
+                    type="number"
+                    variant="standard"
+                    value={form.dpi}
+                    onChange={(event) => {
+                      setForm((prevForm) => ({
+                        ...prevForm,
+                        dpi: event.target.value,
+                      }))
+                    }}
+                  />
                   <Button
                     sx={{
-                      marginTop: '10px',
+                      marginTop: '20px',
                       borderRadius: '20px',
                     }}
-                    color="error"
                     disableElevation
                     fullWidth
                     size="large"
-                    startIcon={<DeleteOutline />}
+                    startIcon={<SaveOutlined />}
                     variant="contained"
                     onClick={() => {
+                      if (!form.name || !form.name.trim()) {
+                        enqueueSnackbar('Name can not be empty!')
+                        return
+                      }
+                      if (!form.width) {
+                        enqueueSnackbar('Width can not be empty!')
+                        return
+                      }
+                      if (form.width < 0) {
+                        enqueueSnackbar('Width must be larger than 0!')
+                        return
+                      }
+                      if (!form.height) {
+                        enqueueSnackbar('Height can not be empty!')
+                        return
+                      }
+                      if (form.height < 0) {
+                        enqueueSnackbar('Height must be larger than 0!')
+                        return
+                      }
+                      if (!form.dpi) {
+                        enqueueSnackbar('DPI can not be empty!')
+                        return
+                      }
+                      if (form.dpi < 0) {
+                        enqueueSnackbar('DPI must be larger than 0!')
+                        return
+                      }
                       if (editingCustom) {
-                        removeCustom(editingCustom)
+                        updateCustom({
+                          ...editingCustom,
+                          title: form.name,
+                          dimension: {
+                            dpi: form.dpi,
+                            width: form.width,
+                            height: form.height,
+                            unit: 'mm',
+                          },
+                        })
+                      } else {
+                        addCustom({
+                          name: useSpecStore.getState().getNextName(),
+                          type: 'custom',
+                          title: form.name,
+                          region: 'Global',
+                          zone: 'WW',
+                          flag: '',
+                          dimension: {
+                            dpi: form.dpi,
+                            width: form.width,
+                            height: form.height,
+                            unit: useSpecStore.getState().groups[0].specs[0]
+                              .dimension.unit,
+                          },
+                          background: '#ffffff',
+                        })
                       }
                       setCustomOpen(false)
                     }}
                   >
-                    Delete
+                    Save
                   </Button>
-                ) : null}
-              </CardContent>
-            </Card>
+                  {editingCustom ? (
+                    <Button
+                      sx={{
+                        marginTop: '10px',
+                        borderRadius: '20px',
+                      }}
+                      color="error"
+                      disableElevation
+                      fullWidth
+                      size="large"
+                      startIcon={<DeleteOutline />}
+                      variant="contained"
+                      onClick={() => {
+                        if (editingCustom) {
+                          removeCustom(editingCustom)
+                        }
+                        setCustomOpen(false)
+                      }}
+                    >
+                      Delete
+                    </Button>
+                  ) : null}
+                </CardContent>
+              </Card>
+            </Box>
           </Slide>
         </Backdrop>
       ) : null}
