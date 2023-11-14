@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef } from 'react'
 import { useSnackbar } from 'notistack'
+import { useIntl } from 'react-intl'
 import DoneAllOutlinedIcon from '@mui/icons-material/DoneAllOutlined'
 import AppBar from '@mui/material/AppBar'
 import Box from '@mui/material/Box'
@@ -34,6 +35,7 @@ const theme = createTheme({
 })
 
 export default function Cropper() {
+  const intl = useIntl()
   const segmentedImage = useSegementStore((state) => state.result)
   const { enqueueSnackbar } = useSnackbar()
   useEffect(() => {
@@ -87,7 +89,7 @@ export default function Cropper() {
             <Toolbar>
               <CloseButton className="mr-4" onClick={handleClose} />
               <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                Crop (1/2)
+                {intl.formatMessage({ id: 'crop' })} (1/2)
               </Typography>
               {segmentedImage ? (
                 <SaveButton

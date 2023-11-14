@@ -31,6 +31,7 @@
     "react-color": "^2.19.3",
     "react-dom": "^18.2.0",
     "react-easy-crop": "^5.0.0",
+    "react-intl": "^6.5.4",
     "react-use": "^17.4.0",
     "smartcrop": "^2.0.5",
     "zustand": "^4.4.1"

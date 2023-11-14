@@ -1,4 +1,5 @@
 import { useCallback, useContext, useEffect } from 'react'
+import { useIntl } from 'react-intl'
 import { useSnackbar } from 'notistack'
 import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined'
 import AppBar from '@mui/material/AppBar'
@@ -37,6 +38,7 @@ const theme = createTheme({
 export interface ImageRetouchProps {}
 
 export default function ImageRetouch(props: ImageRetouchProps) {
+  const intl = useIntl()
   const config = useContext(ConfigContext)
   const { enqueueSnackbar } = useSnackbar()
   useEffect(() => {
@@ -97,7 +99,7 @@ export default function ImageRetouch(props: ImageRetouchProps) {
                 onClick={handleClose}
               />
               <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                Retouch (2/2)
+                {intl.formatMessage({ id: 'retouch' })} (2/2)
               </Typography>
               <SaveButton onClick={handleSave} />
             </Toolbar>

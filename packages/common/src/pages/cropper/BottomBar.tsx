@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useIntl } from 'react-intl'
 import AspectRatioIcon from '@mui/icons-material/AspectRatio'
 import CropRotateIcon from '@mui/icons-material/CropRotate'
 import ZoomInMapIcon from '@mui/icons-material/ZoomInMap'
@@ -15,6 +16,7 @@ import SpecPicker from './SpecPicker'
 type ActiveType = '' | 'spec' | 'zoom' | 'rotate' | 'flip'
 
 export function BottomBar() {
+  const intl = useIntl()
   const [active, setActive] = useState<ActiveType>('')
   const [spec] = useSelectedSpec()
   const {
@@ -78,7 +80,7 @@ export function BottomBar() {
               setFlipHorizontal(!useCropStore.getState().flipHorizontal)
             }}
           >
-            Flip horizontal
+            {intl.formatMessage({ id: 'flipHorizontal' })}
           </Button>
           <Button
             color="inherit"
@@ -87,7 +89,7 @@ export function BottomBar() {
               setFlipVertical(!useCropStore.getState().flipVertical)
             }}
           >
-            Flip vertical
+            {intl.formatMessage({ id: 'flipVertical' })}
           </Button>
         </Stack>
       ) : null}
@@ -106,7 +108,7 @@ export function BottomBar() {
         >
           <Stack direction="column" alignItems="center" spacing={0.5}>
             <AspectRatioIcon fontSize="small" />
-            <span>Size</span>
+            <span>{intl.formatMessage({ id: 'size' })}</span>
           </Stack>
         </Button>
         <Button
@@ -118,7 +120,7 @@ export function BottomBar() {
         >
           <Stack direction="column" alignItems="center" spacing={0.5}>
             <ZoomInMapIcon fontSize="small" />
-            <span>Zoom</span>
+            <span>{intl.formatMessage({ id: 'zoom' })}</span>
           </Stack>
         </Button>
         <Button
@@ -130,7 +132,7 @@ export function BottomBar() {
         >
           <Stack direction="column" alignItems="center" spacing={0.5}>
             <CropRotateIcon fontSize="small" />
-            <span>Rotate</span>
+            <span>{intl.formatMessage({ id: 'rotate' })}</span>
           </Stack>
         </Button>
         <Button
@@ -142,7 +144,7 @@ export function BottomBar() {
         >
           <Stack direction="column" alignItems="center" spacing={0.5}>
             <FlipIcon fontSize="small" />
-            <span>Flip</span>
+            <span>{intl.formatMessage({ id: 'flip' })}</span>
           </Stack>
         </Button>
       </Stack>

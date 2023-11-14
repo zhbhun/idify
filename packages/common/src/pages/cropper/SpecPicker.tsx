@@ -1,6 +1,7 @@
 import classNames from 'classnames'
 import { useSnackbar } from 'notistack'
 import { ReactNode, useEffect, useState } from 'react'
+import { useIntl } from 'react-intl'
 import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded'
 import CloseOutlined from '@mui/icons-material/CloseOutlined'
 import DeleteOutline from '@mui/icons-material/DeleteOutline'
@@ -148,6 +149,7 @@ export interface CustomSpecListPaneProps
   extends Omit<SpecListPaneProps, 'specs'> {}
 
 export function CustomSpecListPane(props: CustomSpecListPaneProps) {
+  const intl = useIntl()
   const { enqueueSnackbar } = useSnackbar()
   const [customs, addCustom, updateCustom, removeCustom] = useSpecStore(
     (state) => [
@@ -189,7 +191,7 @@ export function CustomSpecListPane(props: CustomSpecListPaneProps) {
                 setForm({ name: '', width: 300, height: 300, dpi: 300 })
               }}
             >
-              Add new specification
+              {intl.formatMessage({ id: 'add' })}
             </Button>
           </ListSubheader>
         }
@@ -226,7 +228,7 @@ export function CustomSpecListPane(props: CustomSpecListPaneProps) {
                   sx={{
                     paddingBottom: 0,
                   }}
-                  subheader="Custom specification"
+                  subheader="Edit"
                   action={
                     <IconButton
                       onClick={() => {
@@ -372,7 +374,7 @@ export function CustomSpecListPane(props: CustomSpecListPaneProps) {
                       setCustomOpen(false)
                     }}
                   >
-                    Save
+                    {intl.formatMessage({ id: 'save' })}
                   </Button>
                   {editingCustom ? (
                     <Button
@@ -393,7 +395,7 @@ export function CustomSpecListPane(props: CustomSpecListPaneProps) {
                         setCustomOpen(false)
                       }}
                     >
-                      Delete
+                      {intl.formatMessage({ id: 'delete' })}
                     </Button>
                   ) : null}
                 </CardContent>

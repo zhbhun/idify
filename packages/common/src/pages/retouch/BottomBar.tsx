@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import FilterVintageOutlinedIcon from '@mui/icons-material/FilterVintageOutlined'
+import { useIntl } from 'react-intl'
 import GradientIcon from '@mui/icons-material/Gradient'
 import PaletteIcon from '@mui/icons-material/Palette'
 import TuneOutlinedIcon from '@mui/icons-material/TuneOutlined'
@@ -14,6 +14,7 @@ import Adjustment from './Adjustment'
 type ActiveType = '' | 'color' | 'gradient' | 'adjust' | 'filter'
 
 export function BottomBar() {
+  const intl = useIntl()
   const [active, setActive] = useState<ActiveType>('')
   return (
     <Paper
@@ -39,7 +40,7 @@ export function BottomBar() {
         >
           <Stack direction="column" alignItems="center" spacing={0.5}>
             <PaletteIcon fontSize="small" />
-            <span>Background</span>
+            <span>{intl.formatMessage({ id: 'background' })}</span>
           </Stack>
         </Button>
         <Button
@@ -53,7 +54,7 @@ export function BottomBar() {
         >
           <Stack direction="column" alignItems="center" spacing={0.5}>
             <GradientIcon fontSize="small" />
-            <span>Gradient</span>
+            <span>{intl.formatMessage({ id: 'gradient' })}</span>
           </Stack>
         </Button>
         <Button
@@ -65,7 +66,7 @@ export function BottomBar() {
         >
           <Stack direction="column" alignItems="center" spacing={0.5}>
             <TuneOutlinedIcon fontSize="small" />
-            <span>Adjust</span>
+            <span>{intl.formatMessage({ id: 'adjust' })}</span>
           </Stack>
         </Button>
         {/* <Button
