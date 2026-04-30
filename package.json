@@ -3,6 +3,9 @@
   "name": "idify",
   "version": "0.0.1",
   "dependencies": {
-    "@idify/web": "^0.0.1"
+    "@idify/web": "workspace:*"
+  },
+  "scripts": {
+    "dev": "pnpm --filter @idify/web dev"
   }
 }

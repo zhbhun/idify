@@ -24,7 +24,7 @@
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@fontsource/roboto": "^5.0.8",
-    "@idify/common": "^0.0.1",
+    "@idify/common": "workspace:*",
     "@ionic/react": "^7.0.0",
     "@mui/icons-material": "^5.14.7",
     "@mui/material": "^5.14.7",
