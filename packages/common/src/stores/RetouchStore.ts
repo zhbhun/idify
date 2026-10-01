@@ -71,12 +71,15 @@ export interface RetouchState {
   image: string
   background: RetouchBackground
   adjustment: RetouchAdjustment
+  /** Show the head-position guides over the preview. */
+  guides: boolean
 }
 
 export interface RetouchActions {
   setImage(image: string): void
   setBackground(background: RetouchBackground): void
   setAdjustment(adjustment: RetouchAdjustment): void
+  toggleGuides(): void
   reset(): void
 }
 
@@ -92,18 +95,23 @@ export const defaultRetouchState: RetouchState = {
     },
   },
   adjustment: {},
+  guides: false,
 }
 
 export const useRetouchStore = create<RetouchStore>((set, get) => ({
   ...defaultRetouchState,
   setImage(image: string) {
-    set({ ...defaultRetouchState, image })
+    // Keep the guide toggle across images; it is a view preference.
+    set({ ...defaultRetouchState, image, guides: get().guides })
   },
   setBackground(background: RetouchBackground) {
     set({ background })
   },
   setAdjustment(adjustment: RetouchAdjustment) {
     set({ adjustment: { ...get().adjustment, ...adjustment } })
+  },
+  toggleGuides() {
+    set({ guides: !get().guides })
   },
   reset() {
     set(defaultRetouchState)

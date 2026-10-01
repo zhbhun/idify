@@ -3,6 +3,7 @@ import { useMeasure } from 'react-use'
 import Box from '@mui/material/Box'
 import { useAdaptedSize, useNotEmpty } from '../../hooks'
 import { useRetouchStore, useSelectedSpec } from '../../stores'
+import { createHeadGuideSVG } from '../../uitls'
 import BackgroundPreview from './BackgroundPreview'
 import CanvasImage from './CanvasImage'
 
@@ -18,6 +19,11 @@ export function ImagePreview() {
     [measureRect]
   )
   const size = useAdaptedSize(spec, limit)
+  const guides = useRetouchStore((state) => state.guides)
+  const guideImage = useMemo(
+    () => (guides ? createHeadGuideSVG(spec, size) : ''),
+    [guides, spec, size]
+  )
   return (
     <Box
       ref={measureRef}
@@ -35,6 +41,15 @@ export function ImagePreview() {
       >
         <BackgroundPreview width={size.width} height={size.height} />
         <CanvasImage image={image} />
+        {guides && guideImage ? (
+          <Box
+            className="absolute inset-0 pointer-events-none"
+            sx={{
+              backgroundImage: `url('${guideImage}')`,
+              backgroundSize: '100% 100%',
+            }}
+          />
+        ) : null}
       </Box>
     </Box>
   )

@@ -5,6 +5,7 @@ import Box from '@mui/material/Box'
 import { CROPPER_ZOOM_MAX, CROPPER_ZOOM_MIN } from '../../config'
 import { useAdaptedSize } from '../../hooks'
 import { useCropStore, useSegementStore, useSelectedSpec } from '../../stores'
+import { createHeadGuideSVG } from '../../uitls'
 
 export function LiveCropper() {
   const [measureRef, measureRect] = useMeasure<HTMLDivElement>()
@@ -36,39 +37,10 @@ export function LiveCropper() {
     },
     [setCroppedArea]
   )
-  const maskImage = useMemo(() => {
-    if (spec.rules) {
-      const {
-        maxHeadHeight = 0,
-        minHeadHeight = 0,
-        minHeadOffset = 0,
-      } = spec.rules
-      if (maxHeadHeight > 0 && minHeadOffset > 0) {
-        const height = maxHeadHeight * cropSize.height
-        const offset = minHeadOffset * cropSize.height
-        const innerHeight = minHeadHeight * cropSize.height
-        const innsetOffset = offset + (height - innerHeight) / 2
-        return `data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${
-          cropSize.width
-        } ${cropSize.height}"><ellipse cx="${cropSize.width / 2}" cy="${
-          offset + height / 2
-        }" rx="${(height * (3 / 4)) / 2}" ry="${
-          height / 2
-        }" fill="black" fill-opacity="0.01" stroke="white" stroke-width="1" stroke-opacity="0.6"></ellipse>${
-          innerHeight > 0
-            ? `<ellipse cx="${cropSize.width / 2}" cy="${
-                innsetOffset + innerHeight / 2
-              }" rx="${(innerHeight * (3 / 4)) / 2}" ry="${
-                innerHeight / 2
-              }" fill="none" stroke="white" stroke-width="1" stroke-opacity="0.4"></ellipse>`
-            : ''
-        }<path style="fill:none;stroke:white;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:0.25,0.5;stroke-dashoffset:0;stroke-opacity:0.8" d="m ${
-          cropSize.width / 2
-        },0 v ${cropSize.height} 0"></path></svg>`
-      }
-    }
-    return ''
-  }, [spec, cropSize])
+  const maskImage = useMemo(
+    () => createHeadGuideSVG(spec, cropSize),
+    [spec, cropSize]
+  )
   return (
     <Box
       ref={measureRef}

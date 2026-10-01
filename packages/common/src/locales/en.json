@@ -24,5 +24,10 @@
   "brightness": "Brightness",
   "contrast": "Contrast",
   "saturation": "Saturation",
-  "noise": "Noise"
+  "noise": "Noise",
+  "printSheet": "4x6 inch sheet",
+  "printSheetSaved": "4x6 sheet: {count} x {title} ({size}), {columns}x{rows} at {dpi} DPI.",
+  "printSheetTooLarge": "This photo size is too large to fit on a 4x6 inch sheet.",
+  "printSheetFailed": "Could not create the print sheet.",
+  "guides": "Guides"
 }

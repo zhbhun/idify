@@ -3715,11 +3715,12 @@
       "unit": "inch"
     },
     "rules": {
-      "minHeadHeight": 0.7,
-      "minHeadOffset": 0.1
+      "minHeadHeight": 0.640055,
+      "minHeadOffset": 0.100009,
+      "maxHeadHeight": 0.720062
     },
     "background": "#ffffff",
-    "comment": "The size (width x height) of Hong Kong Passport photo is 40x50 (in mm) or 4x5 (in cm) or 1.57x1.97 (in inches) or 945x1181 (in pixels at 600DPI)\nCare should be taken to position the face within the photo as per the following requirements for Hong Kong Passport photo. The minimum head height should be 35mm. Top of the head should be at a minimum of 5mm from the top. \nPhoto for Hong Kong Passport should be taken in a White background as shown in this example. \nYou should print Hong Kong Passport photo on Glossy/Matte type of photo paper"
+    "comment": "The size (width x height) of Hong Kong Passport photo is 40x50 (in mm) or 4x5 (in cm) or 1.57x1.97 (in inches) or 945x1181 (in pixels at 600DPI)\nCare should be taken to position the face within the photo as per the following requirements for Hong Kong Passport photo. The head height (chin to crown) should be between 32mm and 36mm. Top of the head should be at a minimum of 5mm from the top. \nPhoto for Hong Kong Passport should be taken in a White background as shown in this example. \nYou should print Hong Kong Passport photo on Glossy/Matte type of photo paper"
   },
   {
     "name": "hong_kong_visa",
@@ -3735,11 +3736,12 @@
       "unit": "inch"
     },
     "rules": {
-      "minHeadHeight": 0.7,
-      "minHeadOffset": 0.1
+      "minHeadHeight": 0.640055,
+      "minHeadOffset": 0.100009,
+      "maxHeadHeight": 0.720062
     },
     "background": "#ffffff",
-    "comment": "The size (width x height) of Hong Kong Visa photo is 40x50 (in mm) or 4x5 (in cm) or 1.57x1.97 (in inches) or 945x1181 (in pixels at 600DPI)\nCare should be taken to position the face within the photo as per the following requirements for Hong Kong Visa photo. The minimum head height should be 35mm. Top of the head should be at a minimum of 5mm from the top. \nPhoto for Hong Kong Visa should be taken in a White background as shown in this example. \nYou should print Hong Kong Visa photo on Glossy/Matte type of photo paper"
+    "comment": "The size (width x height) of Hong Kong Visa photo is 40x50 (in mm) or 4x5 (in cm) or 1.57x1.97 (in inches) or 945x1181 (in pixels at 600DPI)\nCare should be taken to position the face within the photo as per the following requirements for Hong Kong Visa photo. The head height (chin to crown) should be between 32mm and 36mm. Top of the head should be at a minimum of 5mm from the top. \nPhoto for Hong Kong Visa should be taken in a White background as shown in this example. \nYou should print Hong Kong Visa photo on Glossy/Matte type of photo paper"
   },
   {
     "name": "hungary_passport",

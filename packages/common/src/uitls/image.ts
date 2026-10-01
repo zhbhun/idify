@@ -1,9 +1,13 @@
 import { RetouchAdjustment, RetouchBackground } from '../stores'
+import { IDPhotoSpec } from '../types'
 import {
   createGLFXCanvas,
   drawCanvasBackground,
   renderGLFXAdjustment,
 } from './canvas'
+import { withPngDensity } from './png'
+
+export type IDPhotoDimension = IDPhotoSpec['dimension']
 
 export function loadImage(url: string): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {
@@ -112,7 +116,8 @@ export async function cropIDPhoto({
   }
 }
 
-export async function createIDPhoto({
+/** Render one finished ID photo (background + adjustments) onto a canvas. */
+export async function renderIDPhotoCanvas({
   image: imageURL,
   background,
   adjustment,
@@ -125,7 +130,7 @@ export async function createIDPhoto({
     width: number
     height: number
   }
-}): Promise<Blob | null> {
+}): Promise<HTMLCanvasElement | null> {
   const image = await loadImage(imageURL)
   const canvas = document.createElement('canvas')
   canvas.width = resolution.width
@@ -150,6 +155,10 @@ export async function createIDPhoto({
     resolution.width,
     resolution.height
   )
+  return canvas
+}
+
+function canvasToPNG(canvas: HTMLCanvasElement): Promise<Blob> {
   return new Promise((resolve, reject) => {
     canvas.toBlob((file) => {
       if (file) {
@@ -159,4 +168,32 @@ export async function createIDPhoto({
       }
     }, 'image/png')
   })
+}
+
+export async function createIDPhoto({
+  image,
+  background,
+  adjustment,
+  resolution,
+}: {
+  image: string
+  background: RetouchBackground
+  adjustment: RetouchAdjustment
+  resolution: {
+    width: number
+    height: number
+    dpi?: number
+  }
+}): Promise<Blob | null> {
+  const canvas = await renderIDPhotoCanvas({
+    image,
+    background,
+    adjustment,
+    resolution,
+  })
+  if (!canvas) {
+    return null
+  }
+  const blob = await canvasToPNG(canvas)
+  return resolution.dpi ? withPngDensity(blob, resolution.dpi) : blob
 }

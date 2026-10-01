@@ -1,2 +1,5 @@
 export * from './canvas'
+export * from './headGuide'
 export * from './image'
+export * from './png'
+export * from './print'

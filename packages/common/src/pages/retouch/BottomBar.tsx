@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useIntl } from 'react-intl'
 import GradientIcon from '@mui/icons-material/Gradient'
 import PaletteIcon from '@mui/icons-material/Palette'
+import StraightenOutlinedIcon from '@mui/icons-material/StraightenOutlined'
 import TuneOutlinedIcon from '@mui/icons-material/TuneOutlined'
 import Button from '@mui/material/Button'
 import Divider from '@mui/material/Divider'
@@ -10,12 +11,15 @@ import Stack from '@mui/material/Stack'
 import BackgroundColorPicker from './BackgroundColorPicker'
 import BackgroundGraientPicker from './BackgroundGraientPicker'
 import Adjustment from './Adjustment'
+import { useRetouchStore } from '../../stores'
 
 type ActiveType = '' | 'color' | 'gradient' | 'adjust' | 'filter'
 
 export function BottomBar() {
   const intl = useIntl()
   const [active, setActive] = useState<ActiveType>('')
+  const guides = useRetouchStore((state) => state.guides)
+  const toggleGuides = useRetouchStore((state) => state.toggleGuides)
   return (
     <Paper
       className="flex flex-col grow-0 shrink-0 rounded-t-2xl overflow-hidden sm:mx-auto sm:w-[400px]"
@@ -67,6 +71,21 @@ export function BottomBar() {
           <Stack direction="column" alignItems="center" spacing={0.5}>
             <TuneOutlinedIcon fontSize="small" />
             <span>{intl.formatMessage({ id: 'adjust' })}</span>
+          </Stack>
+        </Button>
+        <Button
+          size="small"
+          color={guides ? 'primary' : 'inherit'}
+          onClick={toggleGuides}
+        >
+          <Stack direction="column" alignItems="center" spacing={0.5}>
+            <StraightenOutlinedIcon fontSize="small" />
+            <span>
+              {intl.formatMessage({
+                id: 'guides',
+                defaultMessage: 'Guides',
+              })}
+            </span>
           </Stack>
         </Button>
         {/* <Button
