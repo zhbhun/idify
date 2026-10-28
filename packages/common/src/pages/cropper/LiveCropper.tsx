@@ -48,23 +48,29 @@ export function LiveCropper() {
         const offset = minHeadOffset * cropSize.height
         const innerHeight = minHeadHeight * cropSize.height
         const innsetOffset = offset + (height - innerHeight) / 2
+        const cx = cropSize.width / 2
+        // A solid black line under white dashes reads as alternating black
+        // and white segments, visible on light and dark photos alike.
+        const contrast = (shape: (attrs: string) => string) =>
+          shape('fill="none" stroke="black" stroke-width="1"') +
+          shape(
+            'fill="none" stroke="white" stroke-width="1" stroke-dasharray="4,4"'
+          )
+        const ellipse = (top: number, h: number) =>
+          contrast(
+            (attrs) =>
+              `<ellipse cx="${cx}" cy="${top + h / 2}" rx="${
+                (h * (3 / 4)) / 2
+              }" ry="${h / 2}" ${attrs}/>`
+          )
         return `data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${
           cropSize.width
-        } ${cropSize.height}"><ellipse cx="${cropSize.width / 2}" cy="${
-          offset + height / 2
-        }" rx="${(height * (3 / 4)) / 2}" ry="${
-          height / 2
-        }" fill="black" fill-opacity="0.01" stroke="white" stroke-width="1" stroke-opacity="0.6"></ellipse>${
-          innerHeight > 0
-            ? `<ellipse cx="${cropSize.width / 2}" cy="${
-                innsetOffset + innerHeight / 2
-              }" rx="${(innerHeight * (3 / 4)) / 2}" ry="${
-                innerHeight / 2
-              }" fill="none" stroke="white" stroke-width="1" stroke-opacity="0.4"></ellipse>`
-            : ''
-        }<path style="fill:none;stroke:white;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:0.25,0.5;stroke-dashoffset:0;stroke-opacity:0.8" d="m ${
-          cropSize.width / 2
-        },0 v ${cropSize.height} 0"></path></svg>`
+        } ${cropSize.height}">${ellipse(offset, height)}${
+          innerHeight > 0 ? ellipse(innsetOffset, innerHeight) : ''
+        }${contrast(
+          (attrs) =>
+            `<line x1="${cx}" y1="0" x2="${cx}" y2="${cropSize.height}" ${attrs}/>`
+        )}</svg>`
       }
     }
     return ''

@@ -3045,11 +3045,12 @@
       "unit": "mm"
     },
     "rules": {
-      "minHeadHeight": 0.7446808510638298,
+      "minHeadHeight": 0.6808510638297872,
+      "maxHeadHeight": 0.7659574468085106,
       "minHeadOffset": 0.0851063829787234
     },
     "background": "#d3d3d3",
-    "comment": "The size (width x height) of Finland Passport photo is 36x47 (in mm) or 3.6x4.7 (in cm) or 1.42x1.85 (in inches) or 850x1110 (in pixels at 600DPI)\nCare should be taken to position the face within the photo as per the following requirements for Finland Passport photo. The minimum head height should be 35mm. Top of the head should be at a minimum of 4mm from the top. \nPhoto for Finland Passport should be taken in a Light Grey background as shown in this example. \nYou should print Finland Passport photo on Glossy/Matte type of photo paper"
+    "comment": "The size (width x height) of Finland Passport photo is 36x47 mm.\nHead height from crown to chin (excluding hair) must be 32-36 mm. Space above the crown must be 4-6 mm and below the chin 7-9 mm. The centre line of the face may be at most 1.5 mm from the centre line of the photo.\nThe background should be plain, light and neutral; light grey is best.\nSource: Poliisin passikuvaohje (Finnish Police photo guide, 2020), https://poliisi.fi/documents/25235045/31329600/Poliisin-passikuvaohje-2020-FI.pdf"
   },
   {
     "name": "finland_visa",
@@ -3065,11 +3066,12 @@
       "unit": "mm"
     },
     "rules": {
-      "minHeadHeight": 0.7446808510638298,
+      "minHeadHeight": 0.6808510638297872,
+      "maxHeadHeight": 0.7659574468085106,
       "minHeadOffset": 0.0851063829787234
     },
     "background": "#d3d3d3",
-    "comment": "The size (width x height) of Finland Visa photo is 36x47 (in mm) or 3.6x4.7 (in cm) or 1.42x1.85 (in inches) or 850x1110 (in pixels at 600DPI)\nCare should be taken to position the face within the photo as per the following requirements for Finland Visa photo. The minimum head height should be 35mm. Top of the head should be at a minimum of 4mm from the top. \nPhoto for Finland Visa should be taken in a Light Grey background as shown in this example. \nYou should print Finland Visa photo on Glossy/Matte type of photo paper"
+    "comment": "The size (width x height) of Finland Visa photo is 36x47 mm.\nHead height from crown to chin (excluding hair) must be 32-36 mm. Space above the crown must be 4-6 mm and below the chin 7-9 mm. The centre line of the face may be at most 1.5 mm from the centre line of the photo.\nThe background should be plain, light and neutral; light grey is best.\nSource: Poliisin passikuvaohje (Finnish Police photo guide, 2020), https://poliisi.fi/documents/25235045/31329600/Poliisin-passikuvaohje-2020-FI.pdf"
   },
   {
     "name": "finland_passport_online",
@@ -3079,18 +3081,19 @@
     "zone": "FI",
     "flag": "🇫🇮",
     "dimension": {
-      "dpi": 600,
+      "dpi": 352.8,
       "width": 500,
       "height": 653,
       "unit": "mm"
     },
     "rules": {
       "size": 250,
-      "minHeadHeight": 0.7457886676875957,
+      "minHeadHeight": 0.6814701378254211,
+      "maxHeadHeight": 0.7656967840735069,
       "minHeadOffset": 0.08575803981623277
     },
     "background": "#d3d3d3",
-    "comment": "The size (width x height) of Finland Passport online photo is 21.17x27.64 (in mm) or 2.12x2.76 (in cm) or 0.83x1.09 (in inches) or 500x653 (in pixels at 600DPI)\nCare should be taken to position the face within the photo as per the following requirements for Finland Passport online photo. The minimum head height should be 487pixel. Top of the head should be at a minimum of 56pixel from the top. \nPhoto for Finland Passport online should be taken in a Light Grey background as shown in this example. \nThe Maximum file size for Finland Passport online should be 250 KB"
+    "comment": "The Finland Passport online photo must be exactly 500x653 pixels (36x47 mm), JPEG, at most 250 KB.\nHead height from crown to chin (excluding hair) must be 445-500 px. Space above the crown must be 56-84 px and below the chin 96-124 px. The centre line of the face may be at most 21 px from the centre line of the photo.\nThe background should be plain, light and neutral; light grey is best.\nSource: Poliisin passikuvaohje (Finnish Police photo guide, 2020), https://poliisi.fi/documents/25235045/31329600/Poliisin-passikuvaohje-2020-FI.pdf"
   },
   {
     "name": "finland_id_card_online",
@@ -3100,18 +3103,19 @@
     "zone": "FI",
     "flag": "🇫🇮",
     "dimension": {
-      "dpi": 600,
+      "dpi": 352.8,
       "width": 500,
       "height": 653,
       "unit": "mm"
     },
     "rules": {
       "size": 250,
-      "minHeadHeight": 0.7457886676875957,
+      "minHeadHeight": 0.6814701378254211,
+      "maxHeadHeight": 0.7656967840735069,
       "minHeadOffset": 0.08575803981623277
     },
     "background": "#d3d3d3",
-    "comment": "The size (width x height) of Finland ID card online photo is 21.17x27.64 (in mm) or 2.12x2.76 (in cm) or 0.83x1.09 (in inches) or 500x653 (in pixels at 600DPI)\nCare should be taken to position the face within the photo as per the following requirements for Finland ID card online photo. The minimum head height should be 487pixel. Top of the head should be at a minimum of 56pixel from the top. \nPhoto for Finland ID card online should be taken in a Light Grey background as shown in this example. \nThe Maximum file size for Finland ID card online should be 250 KB"
+    "comment": "The Finland ID card online photo must be exactly 500x653 pixels (36x47 mm), JPEG, at most 250 KB.\nHead height from crown to chin (excluding hair) must be 445-500 px. Space above the crown must be 56-84 px and below the chin 96-124 px. The centre line of the face may be at most 21 px from the centre line of the photo.\nThe background should be plain, light and neutral; light grey is best.\nSource: Poliisin passikuvaohje (Finnish Police photo guide, 2020), https://poliisi.fi/documents/25235045/31329600/Poliisin-passikuvaohje-2020-FI.pdf"
   },
   {
     "name": "finland_id_card",
@@ -3127,11 +3131,12 @@
       "unit": "mm"
     },
     "rules": {
-      "minHeadHeight": 0.7446808510638298,
+      "minHeadHeight": 0.6808510638297872,
+      "maxHeadHeight": 0.7659574468085106,
       "minHeadOffset": 0.0851063829787234
     },
     "background": "#d3d3d3",
-    "comment": "The size (width x height) of Finland ID card photo is 36x47 (in mm) or 3.6x4.7 (in cm) or 1.42x1.85 (in inches) or 850x1110 (in pixels at 600DPI)\nCare should be taken to position the face within the photo as per the following requirements for Finland ID card photo. The minimum head height should be 35mm. Top of the head should be at a minimum of 4mm from the top. \nPhoto for Finland ID card should be taken in a Light Grey background as shown in this example. \nYou should print Finland ID card photo on Glossy/Matte type of photo paper"
+    "comment": "The size (width x height) of Finland ID card photo is 36x47 mm.\nHead height from crown to chin (excluding hair) must be 32-36 mm. Space above the crown must be 4-6 mm and below the chin 7-9 mm. The centre line of the face may be at most 1.5 mm from the centre line of the photo.\nThe background should be plain, light and neutral; light grey is best.\nSource: Poliisin passikuvaohje (Finnish Police photo guide, 2020), https://poliisi.fi/documents/25235045/31329600/Poliisin-passikuvaohje-2020-FI.pdf"
   },
   {
     "name": "france_passport",
